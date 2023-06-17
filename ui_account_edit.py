@@ -17,13 +17,8 @@ class Ui_MainWindow(object):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(1421, 862)
-        MainWindow.setStyleSheet(u"QFrame {\n"
-"\n"
-"	border-width: 1px;\n"
-"	border-color: black;\n"
-"	border-style: solid;\n"
-"\n"
-"}")
+        MainWindow.setStyleSheet(u"background-color: rgb(199, 199, 199)")
+        
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.frame = QFrame(self.centralwidget)
