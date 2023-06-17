@@ -28,7 +28,7 @@ class Ui_MainWindow(object):
         self.frame.setStyleSheet(u"background-color: rgb(232, 232, 232);\n"
 "border-color: rgb(0, 0, 0);\n"
 "border-width: 1px;\n"
-"border-style:solid;\n"
+"border-style:solid;\n" 
 "")
         self.frame.setFrameShape(QFrame.StyledPanel)
         self.frame.setFrameShadow(QFrame.Raised)
