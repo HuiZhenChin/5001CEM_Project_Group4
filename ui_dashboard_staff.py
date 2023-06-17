@@ -104,9 +104,8 @@ class Ui_MainWindow(object):
 "\n"
 "\n"
 "")
-        icon = QIcon()
-        icon.addFile(u"C:/Users/Hui Zhen/AppData/Local/Programs/Python/Python311/Lib/site-packages/qt6_applications/Qt/bin/filter.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.pushButton.setIcon(icon)
+        icon = QPixmap("filter.png")
+        self.pushButton.setIcon(QIcon(icon))
         self.pushButton.setIconSize(QSize(50, 50))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
