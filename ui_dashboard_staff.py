@@ -1,12 +1,5 @@
-# -*- coding: utf-8 -*-
-
-################################################################################
-## Form generated from reading UI file 'ui_dashboard_staffIDECiQ.ui'
-##
-## Created by: Qt User Interface Compiler version 6.4.3
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
+import sys
+from PySide6.QtWidgets import QApplication, QMainWindow
 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
@@ -135,5 +128,13 @@ class Ui_MainWindow(object):
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Register", None))
         self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"Details", None))
         self.pushButton.setText("")
-    # retranslateUi
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    MainWindow = QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec())
+
 
