@@ -37,9 +37,9 @@ class Main_window(QMainWindow):
             self.Historymenu.addWidget(self.modifiedbt)
             self.Historymenu.addWidget(self.removebt)
         if role == 'hr':
-            self.dropbt = QPushButton('Dropped Participant')
+            self.dropbt = QPushButton('Drop')
             self.dropbt.clicked.connect(self.show_popup)
-
+            self.dropbt.setStyleSheet("QPushButton { background-color:red;border-style: outset;border-width: 1px;border-color:black;font:bold;width:60px;color:white;}")
             self.Historymenu.addWidget(self.dropbt)
         if role == 'staff':
             self.completedbt = QPushButton('Completed Training')
@@ -189,8 +189,8 @@ class Main_window(QMainWindow):
 
     def show_popup(self):
         popup = QMessageBox()
-        popup.setWindowTitle("Pop-up Dialog")
-        popup.setText("Hello, World!")
+        popup.setWindowTitle("Drop participant")
+        popup.setText("Participant Dropped!")
         popup.exec()
 
     def drop(self):
@@ -226,7 +226,7 @@ class Main_window(QMainWindow):
         if role == "hr":
             self.dropbt.setFixedSize(200, 50)
             self.dropbt.setStyleSheet("QPushButton { text-align: left;}")
-            self.dropbt.setText("Drop Participant")
+            self.dropbt.setText("Drop")
         self.historybt.setFixedSize(200, 50)
         self.historybt.setStyleSheet("QPushButton { text-align: left;}")
         self.historybt.setText("History")
@@ -264,7 +264,6 @@ class Main_window(QMainWindow):
         self.logoutButton.setText("")
         self.title.setHidden(True)
         self.expandButton.clicked.connect(self.expand)
-
 
 if __name__ == '__main__':
     role = input("Enter Role")
