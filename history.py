@@ -28,20 +28,52 @@ class Main_window(QMainWindow):
 
         if role == 'admin':
             self.addedbt = QPushButton('Added Training')
-            self.addedbt.setFixedSize(100,35)
-            self.addedbt.setStyleSheet("background-color: red;")
+            self.addedbt.setFixedSize(150, 35)
+            self.addedbt.setStyleSheet(
+                "QPushButton{background-color: #2B5336; color: white; border-style: outset; border-width: 2px;border-color:black;font:bold;}"
+                "QPushButton:hover { background-color: #959595; color: black;}")
+            self.addedbt.clicked.connect(self.adminAdded)
+            self.addedbt.hide()
             self.modifiedbt =QPushButton('Modified Training')
+            self.modifiedbt.setFixedSize(150, 35)
+            self.modifiedbt.setStyleSheet(
+                "QPushButton{background-color: #063887; color: white; border-style: outset; border-width: 2px;border-color:black;font:bold;}"
+                "QPushButton:hover { background-color: #959595; color: black;}")
+            self.modifiedbt.clicked.connect(self.adminModify)
+            self.modifiedbt.hide()
             self.removebt = QPushButton('Remove Training')
-
+            self.removebt.setFixedSize(150, 35)
+            self.removebt.setStyleSheet(
+                "QPushButton{background-color:  #8B0000; color: white; border-style: outset; border-width: 2px;border-color:black;font:bold;}"
+                "QPushButton:hover { background-color: #959595; color: black;}")
+            self.removebt.clicked.connect(self.adminRemove)
+            self.removebt.hide()
             self.Historymenu.addWidget(self.addedbt)
             self.Historymenu.addWidget(self.modifiedbt)
             self.Historymenu.addWidget(self.removebt)
         if role == 'hr':
-            self.dropbt = QPushButton('Dropped Participant')
+            self.droppedbt = QPushButton('Dropped Participant')
+            self.droppedbt.setFixedSize(150, 35)
+            self.droppedbt.setStyleSheet(
+                "QPushButton{background-color: #063887; color: white; border-style: outset; border-width: 2px;border-color:black;font:bold;}"
+                "QPushButton:hover { background-color: #959595; color: black;}")
+            self.droppedbt.clicked.connect(self.hrDrop)
+            self.droppedbt.hide()
             self.approvebt = QPushButton('Approved Participant')
+            self.approvebt.setFixedSize(150, 35)
+            self.approvebt.setStyleSheet(
+                "QPushButton{background-color: #2B5336; color: white; border-style: outset; border-width: 2px;border-color:black;font:bold;}"
+                "QPushButton:hover { background-color: #959595; color: black;}")
+            self.approvebt.clicked.connect(self.hrApprove)
+            self.approvebt.hide()
             self.rejectbt = QPushButton('Rejected Participant')
-
-            self.Historymenu.addWidget(self.dropbt)
+            self.rejectbt.setFixedSize(150, 35)
+            self.rejectbt.setStyleSheet(
+                "QPushButton{background-color: black; color: white; border-style: outset; border-width: 2px;border-color:black;font:bold;}"
+                "QPushButton:hover { background-color: #959595; color: black;}")
+            self.rejectbt.clicked.connect(self.hrReject)
+            self.rejectbt.hide()
+            self.Historymenu.addWidget(self.droppedbt)
             self.Historymenu.addWidget(self.approvebt)
             self.Historymenu.addWidget(self.rejectbt)
         if role == 'staff':
@@ -57,20 +89,34 @@ class Main_window(QMainWindow):
                                           "QPushButton:hover { background-color: #959595; color: black;}")
             self.rejectedbt.clicked.connect(self.staffreject)
             self.rejectedbt.hide()
-
             self.Historymenu.addWidget(self.completedbt)
             self.Historymenu.addWidget(self.rejectedbt)
 
         #scroll area
+
         self.dashboardwid = QWidget()
         self.dashboardwindow = QVBoxLayout(self.dashboardwid)
-        self.loaddashboard()
+        self.loadDashboard()
+
+        ##staff
+        self.trainingwid= QWidget()
+        self.trainingwindow= QVBoxLayout(self.trainingwid)
+        self.loadTraining()
+
+        #hr assistant
+        self.dropwid= QWidget()
+        self.dropwindow= QVBoxLayout(self.dropwid)
+        self.loadDrop()
 
         self.windowscroll = QScrollArea()
         self.windowscroll.setMinimumSize(QSize(800,500))
         self.windowscroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.windowscroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.windowscroll.setWidget(self.dashboardwid)
+        self.windowscroll.setWidgetResizable(True)
+        self.windowscroll.setWidget(self.trainingwid)
+        self.windowscroll.setWidgetResizable(True)
+        self.windowscroll.setWidget(self.dropwid)
         self.windowscroll.setWidgetResizable(True)
 
         # content
@@ -93,22 +139,30 @@ class Main_window(QMainWindow):
         self.dashboardbt.clicked.connect(self.dashboard)
 
         if role == "staff":
+
             self.trainingbt = QPushButton(qta.icon("fa5.list-alt"), '')
             self.trainingbt.setIconSize(QSize(35, 35))
             self.trainingbt.setFixedSize(50, 50)
-            self.trainingbt.clicked.connect(self.training)
+            self.trainingbt.clicked.connect(self.trainingListStatus)
 
         if role == "hr":
             self.dropbt = QPushButton(qta.icon("mdi.account-remove"), '')
             self.dropbt.setIconSize(QSize(35, 35))
             self.dropbt.setFixedSize(50, 50)
-            self.dropbt.clicked.connect(self.drop)
+            self.dropbt.clicked.connect(self.dropParticipant)
 
         self.historybt = QPushButton(qta.icon("msc.history"), '')
         self.historybt.setIconSize(QSize(35, 35))
         self.historybt.setFixedSize(50, 50)
+
         if role == 'staff':
             self.historybt.clicked.connect(self.staffcomplete)
+
+        if role == 'admin':
+            self.historybt.clicked.connect(self.adminAdded)
+
+        if role == "hr":
+            self.historybt.clicked.connect(self.hrApprove)
 
         self.accountButton = QPushButton(qta.icon("msc.account"), '')
         self.accountButton.setIconSize(QSize(35, 35))
@@ -132,6 +186,7 @@ class Main_window(QMainWindow):
             self.sidemenucontent.addWidget(self.trainingbt)
         if role == "hr":
             self.sidemenucontent.addWidget(self.dropbt)
+
         self.sidemenucontent.addWidget(self.historybt)
         self.sidemenucontent.addStretch()
 
@@ -154,9 +209,252 @@ class Main_window(QMainWindow):
         self.widget.setLayout(self.layout)
         self.setCentralWidget(self.widget)
 
-    def loaddashboard(self):
-        bill = QLabel("Bill")
-        self.dashboardwindow.addWidget(bill)
+    def loadDashboard(self):
+        dashboard = QLabel("Dashboard")
+        self.dashboardwindow.addWidget(dashboard)
+
+    def loadTraining(self):
+        training = QLabel("Training")
+        self.trainingwindow.addWidget(training)
+
+    def loadDrop(self):
+        dropped = QLabel("Drop Participants")
+        self.dropwindow.addWidget(dropped)
+
+    def hrApprove(self):
+        self.current.setText("History")
+        self.approvebt.show()
+        self.rejectbt.show()
+        self.droppedbt.show()
+
+        self.HistoryNo = QVBoxLayout()
+        self.HistoryNoTitle = QLabel("No.")
+        self.HistoryNoTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryNo.addWidget(self.HistoryNoTitle)
+
+        self.HistoryTrainingID = QVBoxLayout()
+        self.HistoryTrainingIDTitle = QLabel("Training ID")
+        self.HistoryTrainingIDTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryTrainingID.addWidget(self.HistoryTrainingIDTitle)
+
+        self.HistoryTraining = QVBoxLayout()
+        self.HistoryTrainingTitle = QLabel("Training Title")
+        self.HistoryTrainingTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryTraining.addWidget(self.HistoryTrainingTitle)
+
+        self.HistoryDate = QVBoxLayout()
+        self.HistoryDateList = QLabel("Date")
+        self.HistoryDateList.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryDate.addWidget(self.HistoryDateList)
+
+        self.HistoryParticipant = QVBoxLayout()
+        self.HistoryParticipantName= QLabel("Participant Name")
+        self.HistoryParticipantName.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryParticipant.addWidget(self.HistoryParticipantName)
+
+        self.Historywid = QWidget()
+        self.HistoryTable = QHBoxLayout(self.Historywid)
+        self.HistoryTable.addLayout(self.HistoryNo)
+        self.HistoryTable.addLayout(self.HistoryTrainingID)
+        self.HistoryTable.addLayout(self.HistoryTraining)
+        self.HistoryTable.addLayout(self.HistoryDate)
+        self.HistoryTable.addLayout(self.HistoryParticipant)
+        self.HistoryTable.setAlignment(Qt.AlignmentFlag.AlignTop)
+
+        self.windowscroll.setWidget(self.Historywid)
+
+    def hrDrop(self):
+
+        self.current.setText("History")
+        self.approvebt.show()
+        self.rejectbt.show()
+        self.droppedbt.show()
+
+        self.HistoryNo = QVBoxLayout()
+        self.HistoryNoTitle = QLabel("No.")
+        self.HistoryNoTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryNo.addWidget(self.HistoryNoTitle)
+
+        self.HistoryTrainingID = QVBoxLayout()
+        self.HistoryTrainingIDTitle = QLabel("Training ID")
+        self.HistoryTrainingIDTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryTrainingID.addWidget(self.HistoryTrainingIDTitle)
+
+        self.HistoryTraining = QVBoxLayout()
+        self.HistoryTrainingTitle = QLabel("Training Title")
+        self.HistoryTrainingTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryTraining.addWidget(self.HistoryTrainingTitle)
+
+        self.HistoryDate = QVBoxLayout()
+        self.HistoryDateList = QLabel("Date")
+        self.HistoryDateList.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryDate.addWidget(self.HistoryDateList)
+
+        self.HistoryParticipant = QVBoxLayout()
+        self.HistoryParticipantName = QLabel("Participant Name")
+        self.HistoryParticipantName.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryParticipant.addWidget(self.HistoryParticipantName)
+
+        self.Historywid = QWidget()
+        self.HistoryTable = QHBoxLayout(self.Historywid)
+        self.HistoryTable.addLayout(self.HistoryNo)
+        self.HistoryTable.addLayout(self.HistoryTrainingID)
+        self.HistoryTable.addLayout(self.HistoryTraining)
+        self.HistoryTable.addLayout(self.HistoryDate)
+        self.HistoryTable.addLayout(self.HistoryParticipant)
+        self.HistoryTable.setAlignment(Qt.AlignmentFlag.AlignTop)
+
+        self.windowscroll.setWidget(self.Historywid)
+
+    def hrReject(self):
+        self.current.setText("History")
+        self.approvebt.show()
+        self.rejectbt.show()
+        self.droppedbt.show()
+
+        self.HistoryNo = QVBoxLayout()
+        self.HistoryNoTitle = QLabel("No.")
+        self.HistoryNoTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryNo.addWidget(self.HistoryNoTitle)
+
+        self.HistoryTrainingID = QVBoxLayout()
+        self.HistoryTrainingIDTitle = QLabel("Training ID")
+        self.HistoryTrainingIDTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryTrainingID.addWidget(self.HistoryTrainingIDTitle)
+
+        self.HistoryTraining = QVBoxLayout()
+        self.HistoryTrainingTitle = QLabel("Training Title")
+        self.HistoryTrainingTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryTraining.addWidget(self.HistoryTrainingTitle)
+
+        self.HistoryDate = QVBoxLayout()
+        self.HistoryDateList = QLabel("Date")
+        self.HistoryDateList.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryDate.addWidget(self.HistoryDateList)
+
+        self.HistoryParticipant = QVBoxLayout()
+        self.HistoryParticipantName = QLabel("Participant Name")
+        self.HistoryParticipantName.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryParticipant.addWidget(self.HistoryParticipantName)
+
+        self.Historywid = QWidget()
+        self.HistoryTable = QHBoxLayout(self.Historywid)
+        self.HistoryTable.addLayout(self.HistoryNo)
+        self.HistoryTable.addLayout(self.HistoryTrainingID)
+        self.HistoryTable.addLayout(self.HistoryTraining)
+        self.HistoryTable.addLayout(self.HistoryDate)
+        self.HistoryTable.addLayout(self.HistoryParticipant)
+        self.HistoryTable.setAlignment(Qt.AlignmentFlag.AlignTop)
+
+        self.windowscroll.setWidget(self.Historywid)
+
+    def adminAdded(self):
+        self.current.setText("History")
+        self.addedbt.show()
+        self.modifiedbt.show()
+        self.removebt.show()
+
+        self.HistoryNo = QVBoxLayout()
+        self.HistoryNoTitle = QLabel("No.")
+        self.HistoryNoTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryNo.addWidget(self.HistoryNoTitle)
+
+        self.HistoryTrainingID = QVBoxLayout()
+        self.HistoryTrainingIDTitle = QLabel("Training ID")
+        self.HistoryTrainingIDTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryTrainingID.addWidget(self.HistoryTrainingIDTitle)
+
+        self.HistoryTraining = QVBoxLayout()
+        self.HistoryTrainingTitle = QLabel("Training Title")
+        self.HistoryTrainingTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryTraining.addWidget(self.HistoryTrainingTitle)
+
+        self.HistoryDate = QVBoxLayout()
+        self.HistoryDateList = QLabel("Date")
+        self.HistoryDateList.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryDate.addWidget(self.HistoryDateList)
+
+        self.Historywid = QWidget()
+        self.HistoryTable = QHBoxLayout(self.Historywid)
+        self.HistoryTable.addLayout(self.HistoryNo)
+        self.HistoryTable.addLayout(self.HistoryTrainingID)
+        self.HistoryTable.addLayout(self.HistoryTraining)
+        self.HistoryTable.addLayout(self.HistoryDate)
+        self.HistoryTable.setAlignment(Qt.AlignmentFlag.AlignTop)
+
+        self.windowscroll.setWidget(self.Historywid)
+
+    def adminModify(self):
+        self.current.setText("History")
+        self.addedbt.show()
+        self.modifiedbt.show()
+        self.removebt.show()
+
+        self.HistoryNo = QVBoxLayout()
+        self.HistoryNoTitle = QLabel("No.")
+        self.HistoryNoTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryNo.addWidget(self.HistoryNoTitle)
+
+        self.HistoryTrainingID = QVBoxLayout()
+        self.HistoryTrainingIDTitle = QLabel("Training ID")
+        self.HistoryTrainingIDTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryTrainingID.addWidget(self.HistoryTrainingIDTitle)
+
+        self.HistoryTraining = QVBoxLayout()
+        self.HistoryTrainingTitle = QLabel("Training Title")
+        self.HistoryTrainingTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryTraining.addWidget(self.HistoryTrainingTitle)
+
+        self.HistoryDate = QVBoxLayout()
+        self.HistoryDateList = QLabel("Date")
+        self.HistoryDateList.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryDate.addWidget(self.HistoryDateList)
+
+        self.Historywid = QWidget()
+        self.HistoryTable = QHBoxLayout(self.Historywid)
+        self.HistoryTable.addLayout(self.HistoryNo)
+        self.HistoryTable.addLayout(self.HistoryTrainingID)
+        self.HistoryTable.addLayout(self.HistoryTraining)
+        self.HistoryTable.addLayout(self.HistoryDate)
+        self.HistoryTable.setAlignment(Qt.AlignmentFlag.AlignTop)
+
+        self.windowscroll.setWidget(self.Historywid)
+
+    def adminRemove(self):
+        self.current.setText("History")
+        self.addedbt.show()
+        self.modifiedbt.show()
+        self.removebt.show()
+
+        self.HistoryNo = QVBoxLayout()
+        self.HistoryNoTitle = QLabel("No.")
+        self.HistoryNoTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryNo.addWidget(self.HistoryNoTitle)
+
+        self.HistoryTrainingID = QVBoxLayout()
+        self.HistoryTrainingIDTitle = QLabel("Training ID")
+        self.HistoryTrainingIDTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryTrainingID.addWidget(self.HistoryTrainingIDTitle)
+
+        self.HistoryTraining = QVBoxLayout()
+        self.HistoryTrainingTitle = QLabel("Training Title")
+        self.HistoryTrainingTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryTraining.addWidget(self.HistoryTrainingTitle)
+
+        self.HistoryDate = QVBoxLayout()
+        self.HistoryDateList = QLabel("Date")
+        self.HistoryDateList.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        self.HistoryDate.addWidget(self.HistoryDateList)
+
+        self.Historywid = QWidget()
+        self.HistoryTable = QHBoxLayout(self.Historywid)
+        self.HistoryTable.addLayout(self.HistoryNo)
+        self.HistoryTable.addLayout(self.HistoryTrainingID)
+        self.HistoryTable.addLayout(self.HistoryTraining)
+        self.HistoryTable.addLayout(self.HistoryDate)
+        self.HistoryTable.setAlignment(Qt.AlignmentFlag.AlignTop)
+
+        self.windowscroll.setWidget(self.Historywid)
 
     def staffcomplete(self):
         self.current.setText("History")
@@ -180,6 +478,7 @@ class Main_window(QMainWindow):
 
         self.HistoryDate = QVBoxLayout()
         self.HistoryDateList = QLabel("Date")
+        self.HistoryDateList.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
         self.HistoryDate.addWidget(self.HistoryDateList)
 
         self.Historywid = QWidget()
@@ -196,22 +495,27 @@ class Main_window(QMainWindow):
         self.current.setText("History")
         self.HistoryNo = QVBoxLayout()
         self.HistoryNoTitle = QLabel("No.")
+        self.HistoryNoTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
         self.HistoryNo.addWidget(self.HistoryNoTitle)
 
         self.HistoryTrainingID = QVBoxLayout()
         self.HistoryTrainingIDTitle = QLabel("Training ID")
+        self.HistoryTrainingIDTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
         self.HistoryTrainingID.addWidget(self.HistoryTrainingIDTitle)
 
         self.HistoryTraining = QVBoxLayout()
         self.HistoryTrainingTitle = QLabel("Training Title")
+        self.HistoryTrainingTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
         self.HistoryTraining.addWidget(self.HistoryTrainingTitle)
 
         self.HistoryDate = QVBoxLayout()
         self.HistoryDateList = QLabel("Date")
+        self.HistoryDateList.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
         self.HistoryDate.addWidget(self.HistoryDateList)
 
         self.HistoryRejected = QVBoxLayout()
         self.HistoryRejectedReason = QLabel("Rejected Reason")
+        self.HistoryRejectedReason.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
         self.HistoryRejected.addWidget(self.HistoryRejectedReason)
 
         self.Historywid = QWidget()
@@ -228,13 +532,44 @@ class Main_window(QMainWindow):
 
     def dashboard(self):
         self.current.setText("DashBoard")
-        self.completedbt.hide()
-        self.rejectedbt.hide()
+        if role == 'staff':
+            self.completedbt.hide()
+            self.rejectedbt.hide()
+        if role == 'admin':
+            self.addedbt.hide()
+            self.modifiedbt.hide()
+            self.removebt.hide()
+        if role == 'hr':
+            self.approvebt.hide()
+            self.rejectbt.hide()
+            self.droppedbt.hide()
+
         self.dashboardwid = QWidget()
         self.dashboardwindow = QVBoxLayout(self.dashboardwid)
-        self.loaddashboard()
+        self.loadDashboard()
         self.windowscroll.setWidget(self.dashboardwid)
-        print("Bill")
+        print("Dashboard")
+
+    def trainingListStatus(self):
+        self.current.setText("Training List Status")
+        self.completedbt.hide()
+        self.rejectedbt.hide()
+        self.trainingwid= QWidget()
+        self.trainingwindow= QVBoxLayout(self.trainingwid)
+        self.loadTraining()
+        self.windowscroll.setWidget(self.trainingwid)
+        print("Training List Status")
+
+    def dropParticipant(self):
+        self.current.setText("Drop Participant")
+        self.approvebt.hide()
+        self.rejectbt.hide()
+        self.droppedbt.hide()
+        self.dropwid = QWidget()
+        self.dropwindow = QVBoxLayout(self.dropwid)
+        self.loadDrop()
+        self.windowscroll.setWidget(self.dropwid)
+        print("Drop Participant")
 
     def training(self):
         self.current.setText("Training")
