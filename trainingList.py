@@ -21,55 +21,68 @@ class Main_window(QMainWindow):
         self.current = QLabel("Training List Status")
         self.current.setStyleSheet("QLabel{font-size: 18pt;}")
 
-        # history
+        #Training
         self.trainingmenu = QHBoxLayout()
         self.trainingmenu.setAlignment(Qt.AlignmentFlag.AlignRight)
 
-        #history menu
+        #Training menu
         if role == 'admin':
             print()
         if role == 'hr':
             print()
         if role == 'staff':
             self.pendingbt = QPushButton('Pending')
+            self.pendingbt.setStyleSheet("QPushButton{background-color:#8B0000;border-style: outset;border-width: 2px;border-color:black;font:bold;width:60px;color:white;}")
+            self.pendingbt.setFixedSize(150, 35)
             self.approvebt = QPushButton('Approved')
+            self.approvebt.setStyleSheet("QPushButton{background-color:#2B5336;border-style: outset;border-width: 2px;border-color:black;font:bold;width:60px;color:white;}")
+            self.approvebt.setFixedSize(150, 35)
             self.ongoingbt = QPushButton('Ongoing')
+            self.ongoingbt.setStyleSheet("QPushButton{background-color:blue;border-style: outset;border-width: 2px;border-color:black;font:bold;width:60px;color:white;}")
+            self.ongoingbt.setFixedSize(150, 35)
 
             self.trainingmenu.addWidget(self.pendingbt)
             self.trainingmenu.addWidget(self.approvebt)
             self.trainingmenu.addWidget(self.ongoingbt)
 
-        #Training Content
-        self.trainingNo = QVBoxLayout()
-        self.trainingNoTitle = QLabel("No.")
-        self.trainingNo.addWidget(self.trainingNoTitle)
+            #Training Content
+            self.trainingNo = QVBoxLayout()
+            self.trainingNoTitle = QLabel("No.")
+            self.trainingNoTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+            self.trainingNo.addWidget(self.trainingNoTitle)
 
-        self.trainingId= QVBoxLayout()
-        self.trainingIdTitle= QLabel("Training ID")
-        self.trainingId.addWidget(self.trainingIdTitle)
+            self.trainingId= QVBoxLayout()
+            self.trainingIdTitle= QLabel("Training ID")
+            self.trainingIdTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+            self.trainingId.addWidget(self.trainingIdTitle)
 
-        self.trainingTitle = QVBoxLayout()
-        self.trainingTitleList = QLabel("Training Title")
-        self.trainingTitle.addWidget(self.trainingTitleList)
+            self.trainingTitle = QVBoxLayout()
+            self.trainingTitleList = QLabel("Training Title")
+            self.trainingTitleList.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+            self.trainingTitle.addWidget(self.trainingTitleList)
 
-        self.trainingDate= QVBoxLayout()
-        self.currentTrainingDate = QLabel("Date")
-        self.trainingDate.addWidget(self.currentTrainingDate)
+            self.trainingDate= QVBoxLayout()
+            self.currentTrainingDate = QLabel("Date")
+            self.currentTrainingDate.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+            self.trainingDate.addWidget(self.currentTrainingDate)
 
-        self.trainingTime = QVBoxLayout()
-        self.currentTrainingTime= QLabel("Time")
-        self.trainingTime.addWidget(self.currentTrainingTime)
+            self.trainingTime = QVBoxLayout()
+            self.currentTrainingTime= QLabel("Time")
+            self.currentTrainingTime.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+            self.trainingTime.addWidget(self.currentTrainingTime)
 
-        self.trainingVenue= QVBoxLayout()
-        self.currentTrainingVenue= QLabel("Venue")
-        self.trainingVenue.addWidget(self.currentTrainingVenue)
+            self.trainingVenue= QVBoxLayout()
+            self.currentTrainingVenue= QLabel("Venue")
+            self.currentTrainingVenue.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+            self.trainingVenue.addWidget(self.currentTrainingVenue)
 
-        self.trainingStatus= QVBoxLayout()
-        self.currentTrainingStatus= QLabel("Status")
-        self.trainingStatus.addWidget(self.currentTrainingStatus)
+            self.trainingStatus= QVBoxLayout()
+            self.currentTrainingStatus= QLabel("Status")
+            self.currentTrainingStatus.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+            self.trainingStatus.addWidget(self.currentTrainingStatus)
 
         if role == 'staff':
-            #History Table
+            #Training Table
             self.trainingTable = QHBoxLayout()
             self.trainingTable.addLayout(self.trainingNo)
             self.trainingTable.addLayout(self.trainingId)
@@ -79,18 +92,18 @@ class Main_window(QMainWindow):
             self.trainingTable.addLayout(self.trainingVenue)
             self.trainingTable.addLayout(self.trainingStatus)
 
-        #History Main Window
+        #Training Main Window
         self.trainingWindow = QVBoxLayout()
         self.trainingWindow.addLayout(self.trainingmenu)
         self.trainingWindow.addLayout(self.trainingTable)
 
-        # content
+        #content
         self.content = QVBoxLayout()
         self.content.addWidget(self.current)
         self.content.addLayout(self.trainingWindow)
         self.content.addStretch()
 
-        # side menu
+        #side menu
         icon = qta.icon("fa.angle-double-right")
         self.expandButton = QPushButton(icon, '')
         self.expandButton.setIconSize(QSize(35, 35))
@@ -107,6 +120,9 @@ class Main_window(QMainWindow):
             self.trainingbt.setIconSize(QSize(35, 35))
             self.trainingbt.setFixedSize(50, 50)
             self.trainingbt.clicked.connect(self.training)
+            self.pendingbt.clicked.connect(self.pending)
+            self.approvebt.clicked.connect(self.approve)
+            self.ongoingbt.clicked.connect(self.ongoing)
 
         if role == "hr":
             self.dropbt = QPushButton(qta.icon("mdi.account-remove"), '')
@@ -155,7 +171,7 @@ class Main_window(QMainWindow):
         self.sidemenu.addLayout(self.sidemenufooter, 1)
         self.sidemenu.addStretch()
 
-        # whole window
+        #whole window
         self.layout = QHBoxLayout()
         self.layout.addLayout(self.sidemenu, 1)
         self.layout.addLayout(self.content, 100)
@@ -176,7 +192,22 @@ class Main_window(QMainWindow):
 
     def training(self):
         self.hideall()
-        self.current.setText("Training")
+        self.current.setText("Training List Status")
+        print("Bill")
+
+    def pending(self):
+        self.hideall()
+        self.current.setText("Pending Status")
+        print("Bill")
+
+    def approve(self):
+        self.hideall()
+        self.current.setText("Approve Status")
+        print("Bill")
+
+    def ongoing(self):
+        self.hideall()
+        self.current.setText("Ongoing Status")
         print("Bill")
 
     def drop(self):
