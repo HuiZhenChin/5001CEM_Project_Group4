@@ -4,18 +4,62 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
-
+#main window
 class Main_window(QMainWindow):
     def __init__(self, role):
         QMainWindow.__init__(self)
-        self.tempdata = ['Training 1', 'Training 2', 'Training 3', 'Training 4', 'Training 5', 'Training 6',
-                         'Training 7']
+        self.credential = ['ID', '101WIZARD', '011-10533650', 'jqgammers@gmail.com', role,
+                          '']
+        self.tempdata = [['Admin', 'T104', '23Dec2025', '03.04', 'Hall A', '3000',
+                          '', '30', None,
+                          'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .'],
+                         ['Bill', 'T105', '23Dec2024', '04.05', 'Hall B', '30000',
+                          '', '30', None,
+                          'Cybersecurity is the practice of protecting critical systems and sensitive information from digital attacks. In this training, participants will learn about different types of cyber attacks, acquire knowledge and skills to protect digital systems, networks, and data from unauthorized access and involve in hands-on practical activities.'],
+                         ['MARKETING', 'T103', '6/24/2023', '10.00 AM', 'Alpha Enterprise Conference Hall', '2000',
+                          '', '45', None,
+                          'Marketing is the activity of promoting, market researching and advertising of products or services. In this training, participants will learn about market research, consumer behaviour, branding, advertising and digital marketing strategies, involve in interactive sessions to study the real-world case studies,  gain insight into promoting and building the digital platforms and apply data analytics skills to implement the marketing plans.'],
+                         ['Hill', 'T110', '23Dec2025', '03.04', 'Hall A', '3000',
+                          '', '30', None,
+                          'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .'],
+                         ['Gill', 'T109', '23Dec2025', '03.04', 'Hall A', '3000',
+                          '', '30', None,
+                          'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .'],
+                         ['Mill', 'T145', '23Dec2025', '03.04', 'Hall A', '3000',
+                          '', '30', None,
+                          'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .'],
+                         ['Fuck You', 'T123', '23Dec2025', '03.04', 'Hall A', '3000',
+                          '', '30', None,
+                          'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
+
         if role == "hr":
             self.setWindowTitle("HR Assistant")
+            self.approveddata = [['T105', 'S104', 'HRID']]
+            self.rejecteddata = [['T103', 'S104', 'HRID']]
+            self.ongoing = [['Akau', 'T167', '23Dec2025', '03.04', 'Hall A', '3000',
+                             '', '30', None,
+                             'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
+            self.completed = [['Dill', 'T111', '23Dec2025', '03.04', 'Hall A', '3000',
+                               '', '30', None,
+                               'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
         elif role == "admin":
             self.setWindowTitle("Admin")
+            self.addedtrainingdata = [['AID', 'T104', '01Dec2025']]
+            self.edittrainingdata = [['AID', 'T105', '20Dec2025']]
+            self.removetrainingdata = [['AID', '21Dec2025', 'Dill', 'T111', '23Dec2025', '03.04', 'Hall A', '3000',
+                                        '','30', None, 'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
         else:
             self.setWindowTitle("Staff")
+            self.registereddata = [['T104', 'ID']]
+            self.approveddata = [['T105', 'SID', 'HRID']]
+            self.rejecteddata = [['T103', 'ID', 'HRID']]
+            self.done = [['T167', 'ID', 'HRID'], ['T111', 'ID', 'HRID']]
+            self.ongoing = [['Akau', 'T167', '23Dec2025', '03.04', 'Hall A', '3000',
+                             '', '30', None,
+                             'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
+            self.completed = [['Dill', 'T111', '23Dec2025', '03.04', 'Hall A', '3000',
+                               '', '30', None,
+                               'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
         self.widget = QWidget(self)
         self.title = QLabel(role)
         self.title.setStyleSheet("QLabel{font-size: 18pt;}")
@@ -25,7 +69,9 @@ class Main_window(QMainWindow):
         # history menu
         self.Historymenu = QHBoxLayout()
         self.Historymenu.setAlignment(Qt.AlignmentFlag.AlignRight)
-
+        
+        # create those buttons according to specific role
+        # once create, connect the function and hide button first
         if role == 'admin':
             self.addedbt = QPushButton('Added Training')
             self.addedbt.setFixedSize(150, 35)
@@ -48,17 +94,12 @@ class Main_window(QMainWindow):
                 "QPushButton:hover { background-color: #959595; color: black;}")
             self.removebt.clicked.connect(self.adminRemove)
             self.removebt.hide()
+            # add those buttons to history menu
             self.Historymenu.addWidget(self.addedbt)
             self.Historymenu.addWidget(self.modifiedbt)
             self.Historymenu.addWidget(self.removebt)
         if role == 'hr':
-            self.droppedbt = QPushButton('Dropped Participant')
-            self.droppedbt.setFixedSize(150, 35)
-            self.droppedbt.setStyleSheet(
-                "QPushButton{background-color: #063887; color: white; border-style: outset; border-width: 2px;border-color:black;font:bold;}"
-                "QPushButton:hover { background-color: #959595; color: black;}")
-            self.droppedbt.clicked.connect(self.hrDrop)
-            self.droppedbt.hide()
+
             self.approvebt = QPushButton('Approved Participant')
             self.approvebt.setFixedSize(150, 35)
             self.approvebt.setStyleSheet(
@@ -73,7 +114,6 @@ class Main_window(QMainWindow):
                 "QPushButton:hover { background-color: #959595; color: black;}")
             self.rejectbt.clicked.connect(self.hrReject)
             self.rejectbt.hide()
-            self.Historymenu.addWidget(self.droppedbt)
             self.Historymenu.addWidget(self.approvebt)
             self.Historymenu.addWidget(self.rejectbt)
         if role == 'staff':
@@ -93,7 +133,6 @@ class Main_window(QMainWindow):
             self.Historymenu.addWidget(self.rejectedbt)
 
         #scroll area
-
         self.dashboardwid = QWidget()
         self.dashboardwindow = QVBoxLayout(self.dashboardwid)
         self.loadDashboard()
@@ -103,11 +142,8 @@ class Main_window(QMainWindow):
         self.trainingwindow= QVBoxLayout(self.trainingwid)
         self.loadTraining()
 
-        #hr assistant
-        self.dropwid= QWidget()
-        self.dropwindow= QVBoxLayout(self.dropwid)
-        self.loadDrop()
-
+        
+        # set the size of scroll area
         self.windowscroll = QScrollArea()
         self.windowscroll.setMinimumSize(QSize(800,500))
         self.windowscroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
@@ -116,8 +152,7 @@ class Main_window(QMainWindow):
         self.windowscroll.setWidgetResizable(True)
         self.windowscroll.setWidget(self.trainingwid)
         self.windowscroll.setWidgetResizable(True)
-        self.windowscroll.setWidget(self.dropwid)
-        self.windowscroll.setWidgetResizable(True)
+
 
         # content
         self.content = QVBoxLayout()
@@ -127,6 +162,7 @@ class Main_window(QMainWindow):
         self.content.addStretch()
 
         # side menu
+        # create icon at the side menu
         icon = qta.icon("fa.angle-double-right")
         self.expandButton = QPushButton(icon, '')
         self.expandButton.setIconSize(QSize(35, 35))
@@ -145,16 +181,12 @@ class Main_window(QMainWindow):
             self.trainingbt.setFixedSize(50, 50)
             self.trainingbt.clicked.connect(self.trainingListStatus)
 
-        if role == "hr":
-            self.dropbt = QPushButton(qta.icon("mdi.account-remove"), '')
-            self.dropbt.setIconSize(QSize(35, 35))
-            self.dropbt.setFixedSize(50, 50)
-            self.dropbt.clicked.connect(self.dropParticipant)
 
         self.historybt = QPushButton(qta.icon("msc.history"), '')
         self.historybt.setIconSize(QSize(35, 35))
         self.historybt.setFixedSize(50, 50)
-
+        
+        # page to show when click on particular button
         if role == 'staff':
             self.historybt.clicked.connect(self.staffcomplete)
 
@@ -184,8 +216,7 @@ class Main_window(QMainWindow):
         self.sidemenucontent.addWidget(self.dashboardbt)
         if role == "staff":
             self.sidemenucontent.addWidget(self.trainingbt)
-        if role == "hr":
-            self.sidemenucontent.addWidget(self.dropbt)
+
 
         self.sidemenucontent.addWidget(self.historybt)
         self.sidemenucontent.addStretch()
@@ -217,136 +248,156 @@ class Main_window(QMainWindow):
         training = QLabel("Training")
         self.trainingwindow.addWidget(training)
 
-    def loadDrop(self):
-        dropped = QLabel("Drop Participants")
-        self.dropwindow.addWidget(dropped)
 
     def hrApprove(self):
         self.current.setText("History")
         self.approvebt.show()
         self.rejectbt.show()
-        self.droppedbt.show()
 
-        self.HistoryNo = QVBoxLayout()
-        self.HistoryNoTitle = QLabel("No.")
-        self.HistoryNoTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryNo.addWidget(self.HistoryNoTitle)
+        HistoryNoTitle = QLabel("No.")
+        HistoryNoTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.HistoryTrainingID = QVBoxLayout()
-        self.HistoryTrainingIDTitle = QLabel("Training ID")
-        self.HistoryTrainingIDTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryTrainingID.addWidget(self.HistoryTrainingIDTitle)
+        HistoryTrainingIDTitle = QLabel("Training ID")
+        HistoryTrainingIDTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.HistoryTraining = QVBoxLayout()
-        self.HistoryTrainingTitle = QLabel("Training Title")
-        self.HistoryTrainingTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryTraining.addWidget(self.HistoryTrainingTitle)
+        HistoryTrainingTitle = QLabel("Training Title")
+        HistoryTrainingTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.HistoryDate = QVBoxLayout()
-        self.HistoryDateList = QLabel("Date")
-        self.HistoryDateList.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryDate.addWidget(self.HistoryDateList)
+        HistoryDateList = QLabel("Date")
+        HistoryDateList.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.HistoryParticipant = QVBoxLayout()
-        self.HistoryParticipantName= QLabel("Participant Name")
-        self.HistoryParticipantName.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryParticipant.addWidget(self.HistoryParticipantName)
+        HistoryParticipantName = QLabel("Participant Name")
+        HistoryParticipantName.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.Historywid = QWidget()
-        self.HistoryTable = QHBoxLayout(self.Historywid)
-        self.HistoryTable.addLayout(self.HistoryNo)
-        self.HistoryTable.addLayout(self.HistoryTrainingID)
-        self.HistoryTable.addLayout(self.HistoryTraining)
-        self.HistoryTable.addLayout(self.HistoryDate)
-        self.HistoryTable.addLayout(self.HistoryParticipant)
-        self.HistoryTable.setAlignment(Qt.AlignmentFlag.AlignTop)
+        HistoryHRName = QLabel("HR Name")
+        HistoryHRName.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.windowscroll.setWidget(self.Historywid)
+        approveParticipantDetails = QGridLayout()
+        approveParticipantDetails.addWidget(HistoryNoTitle, 0, 0)
+        approveParticipantDetails.addWidget(HistoryTrainingIDTitle, 0, 1)
+        approveParticipantDetails.addWidget(HistoryTrainingTitle, 0, 2)
+        approveParticipantDetails.addWidget(HistoryDateList, 0, 3)
+        approveParticipantDetails.addWidget(HistoryParticipantName, 0, 4)
+        approveParticipantDetails.addWidget(HistoryHRName, 0, 5)
 
-    def hrDrop(self):
+        approveParticipantData = []
 
-        self.current.setText("History")
-        self.approvebt.show()
-        self.rejectbt.show()
-        self.droppedbt.show()
+        for temp in self.approveddata:
+            for tempa in self.tempdata:
+                if temp[0] == tempa[1]:
+                    approveParticipantData.append([tempa[0], tempa[1], tempa[2], temp[1], temp[2]])
 
-        self.HistoryNo = QVBoxLayout()
-        self.HistoryNoTitle = QLabel("No.")
-        self.HistoryNoTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryNo.addWidget(self.HistoryNoTitle)
+        for temp in self.approveddata:
+            for tempa in self.ongoing:
+                if temp[0] == tempa[1]:
+                    approveParticipantData.append([tempa[0], tempa[1], tempa[2], temp[1], temp[2]])
 
-        self.HistoryTrainingID = QVBoxLayout()
-        self.HistoryTrainingIDTitle = QLabel("Training ID")
-        self.HistoryTrainingIDTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryTrainingID.addWidget(self.HistoryTrainingIDTitle)
+        for temp in self.approveddata:
+            for tempa in self.completed:
+                if temp[0] == tempa[1]:
+                    approveParticipantData.append([tempa[0], tempa[1], tempa[2], temp[1], temp[2]])
 
-        self.HistoryTraining = QVBoxLayout()
-        self.HistoryTrainingTitle = QLabel("Training Title")
-        self.HistoryTrainingTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryTraining.addWidget(self.HistoryTrainingTitle)
+        count = 1
 
-        self.HistoryDate = QVBoxLayout()
-        self.HistoryDateList = QLabel("Date")
-        self.HistoryDateList.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryDate.addWidget(self.HistoryDateList)
+        for i in approveParticipantData:
+            number = QLabel(str(count))
+            TID = QLabel(i[1])
+            Ttitle = QLabel(i[0])
+            Date = QLabel(i[2])
+            ParticipantName = QLabel(i[3])
+            HRID = QLabel(i[4])
+            approveParticipantDetails.addWidget(number, count, 0)
+            approveParticipantDetails.addWidget(TID, count, 1)
+            approveParticipantDetails.addWidget(Ttitle, count, 2)
+            approveParticipantDetails.addWidget(Date, count, 3)
+            approveParticipantDetails.addWidget(ParticipantName, count, 4)
+            approveParticipantDetails.addWidget(HRID, count, 5)
+            count += 1
 
-        self.HistoryParticipant = QVBoxLayout()
-        self.HistoryParticipantName = QLabel("Participant Name")
-        self.HistoryParticipantName.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryParticipant.addWidget(self.HistoryParticipantName)
+        approveParticipantwid = QWidget()
+        approveParticipantwindow = QVBoxLayout(approveParticipantwid)
+        approveParticipantwindow.addLayout(approveParticipantDetails)
+        approveParticipantwindow.setAlignment(Qt.AlignmentFlag.AlignTop)
+        approveParticipantwindow.addStretch()
 
-        self.Historywid = QWidget()
-        self.HistoryTable = QHBoxLayout(self.Historywid)
-        self.HistoryTable.addLayout(self.HistoryNo)
-        self.HistoryTable.addLayout(self.HistoryTrainingID)
-        self.HistoryTable.addLayout(self.HistoryTraining)
-        self.HistoryTable.addLayout(self.HistoryDate)
-        self.HistoryTable.addLayout(self.HistoryParticipant)
-        self.HistoryTable.setAlignment(Qt.AlignmentFlag.AlignTop)
+        # set scroll area widget
+        self.windowscroll.setWidget(approveParticipantwid)
 
-        self.windowscroll.setWidget(self.Historywid)
 
     def hrReject(self):
         self.current.setText("History")
         self.approvebt.show()
         self.rejectbt.show()
-        self.droppedbt.show()
 
-        self.HistoryNo = QVBoxLayout()
-        self.HistoryNoTitle = QLabel("No.")
-        self.HistoryNoTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryNo.addWidget(self.HistoryNoTitle)
+        HistoryNoTitle = QLabel("No.")
+        HistoryNoTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.HistoryTrainingID = QVBoxLayout()
-        self.HistoryTrainingIDTitle = QLabel("Training ID")
-        self.HistoryTrainingIDTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryTrainingID.addWidget(self.HistoryTrainingIDTitle)
+        HistoryTrainingIDTitle = QLabel("Training ID")
+        HistoryTrainingIDTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.HistoryTraining = QVBoxLayout()
-        self.HistoryTrainingTitle = QLabel("Training Title")
-        self.HistoryTrainingTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryTraining.addWidget(self.HistoryTrainingTitle)
+        HistoryTrainingTitle = QLabel("Training Title")
+        HistoryTrainingTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.HistoryDate = QVBoxLayout()
-        self.HistoryDateList = QLabel("Date")
-        self.HistoryDateList.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryDate.addWidget(self.HistoryDateList)
+        HistoryDateList = QLabel("Date")
+        HistoryDateList.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.HistoryParticipant = QVBoxLayout()
-        self.HistoryParticipantName = QLabel("Participant Name")
-        self.HistoryParticipantName.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryParticipant.addWidget(self.HistoryParticipantName)
+        HistoryParticipantName = QLabel("Participant Name")
+        HistoryParticipantName.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.Historywid = QWidget()
-        self.HistoryTable = QHBoxLayout(self.Historywid)
-        self.HistoryTable.addLayout(self.HistoryNo)
-        self.HistoryTable.addLayout(self.HistoryTrainingID)
-        self.HistoryTable.addLayout(self.HistoryTraining)
-        self.HistoryTable.addLayout(self.HistoryDate)
-        self.HistoryTable.addLayout(self.HistoryParticipant)
-        self.HistoryTable.setAlignment(Qt.AlignmentFlag.AlignTop)
+        HistoryHRName = QLabel("HR Name")
+        HistoryHRName.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.windowscroll.setWidget(self.Historywid)
+        rejectParticipantDetails= QGridLayout()
+        rejectParticipantDetails.addWidget(HistoryNoTitle, 0,0)
+        rejectParticipantDetails.addWidget(HistoryTrainingIDTitle, 0, 1)
+        rejectParticipantDetails.addWidget(HistoryTrainingTitle, 0, 2)
+        rejectParticipantDetails.addWidget(HistoryDateList, 0, 3)
+        rejectParticipantDetails.addWidget(HistoryParticipantName, 0, 4)
+        rejectParticipantDetails.addWidget(HistoryHRName, 0, 5)
+
+        rejectParticipantData=[]
+
+        for temp in self.rejecteddata:
+            for tempa in self.tempdata:
+                if temp[0] == tempa[1]:
+                    rejectParticipantData.append([tempa[0],tempa[1], tempa[2], temp[1], temp[2]])
+
+        for temp in self.rejecteddata:
+            for tempa in self.ongoing:
+                if temp[0] == tempa[1]:
+                    rejectParticipantData.append([tempa[0],tempa[1], tempa[2], temp[1], temp[2]])
+
+        for temp in self.rejecteddata:
+            for tempa in self.completed:
+                if temp[0] == tempa[1]:
+                    rejectParticipantData.append([tempa[0],tempa[1],tempa[2], temp[1], temp[2]])
+
+        count = 1
+
+        for i in  rejectParticipantData:
+            number = QLabel(str(count))
+            TID = QLabel(i[1])
+            Ttitle = QLabel(i[0])
+            Date = QLabel(i[2])
+            ParticipantName= QLabel(i[3])
+            HRID= QLabel(i[4])
+            rejectParticipantDetails.addWidget(number, count, 0)
+            rejectParticipantDetails.addWidget(TID, count, 1)
+            rejectParticipantDetails.addWidget(Ttitle, count, 2)
+            rejectParticipantDetails.addWidget(Date, count, 3)
+            rejectParticipantDetails.addWidget(ParticipantName, count, 4)
+            rejectParticipantDetails.addWidget(HRID, count, 5)
+            count += 1
+
+        rejectParticipantwid= QWidget()
+        rejectParticipantwindow= QVBoxLayout(rejectParticipantwid)
+        rejectParticipantwindow.addLayout(rejectParticipantDetails)
+        rejectParticipantwindow.setAlignment(Qt.AlignmentFlag.AlignTop)
+        rejectParticipantwindow.addStretch()
+
+        #set scroll area widget
+        self.windowscroll.setWidget(rejectParticipantwid)
+
 
     def adminAdded(self):
         self.current.setText("History")
@@ -354,35 +405,59 @@ class Main_window(QMainWindow):
         self.modifiedbt.show()
         self.removebt.show()
 
-        self.HistoryNo = QVBoxLayout()
-        self.HistoryNoTitle = QLabel("No.")
-        self.HistoryNoTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryNo.addWidget(self.HistoryNoTitle)
+        HistoryNoTitle = QLabel("No.")
+        HistoryNoTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.HistoryTrainingID = QVBoxLayout()
-        self.HistoryTrainingIDTitle = QLabel("Training ID")
-        self.HistoryTrainingIDTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryTrainingID.addWidget(self.HistoryTrainingIDTitle)
+        HistoryTrainingIDTitle = QLabel("Training ID")
+        HistoryTrainingIDTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.HistoryTraining = QVBoxLayout()
-        self.HistoryTrainingTitle = QLabel("Training Title")
-        self.HistoryTrainingTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryTraining.addWidget(self.HistoryTrainingTitle)
+        HistoryTrainingTitle = QLabel("Training Title")
+        HistoryTrainingTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.HistoryDate = QVBoxLayout()
-        self.HistoryDateList = QLabel("Date")
-        self.HistoryDateList.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryDate.addWidget(self.HistoryDateList)
+        HistoryDateList = QLabel("Date")
+        HistoryDateList.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.Historywid = QWidget()
-        self.HistoryTable = QHBoxLayout(self.Historywid)
-        self.HistoryTable.addLayout(self.HistoryNo)
-        self.HistoryTable.addLayout(self.HistoryTrainingID)
-        self.HistoryTable.addLayout(self.HistoryTraining)
-        self.HistoryTable.addLayout(self.HistoryDate)
-        self.HistoryTable.setAlignment(Qt.AlignmentFlag.AlignTop)
+        HistoryAdminName = QLabel("Admin")
+        HistoryAdminName.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.windowscroll.setWidget(self.Historywid)
+        addDetails = QGridLayout()
+        addDetails.addWidget(HistoryNoTitle, 0, 0)
+        addDetails.addWidget(HistoryTrainingIDTitle, 0, 1)
+        addDetails.addWidget(HistoryTrainingTitle, 0, 2)
+        addDetails.addWidget(HistoryDateList, 0, 3)
+        addDetails.addWidget(HistoryAdminName, 0, 4)
+
+        addeddata = []
+
+        for temp in self.addedtrainingdata:
+            for tempa in self.tempdata:
+                if temp[1] == tempa[1]:
+                    addeddata.append([tempa[0], temp[0], temp[1], temp[2]])
+
+        count = 1
+
+        for i in addeddata:
+            number = QLabel(str(count))
+            TID = QLabel(i[2])
+            Title = QLabel(i[0])
+            Date = QLabel(i[3])
+            Admin= QLabel(i[1])
+            addDetails.addWidget(number, count, 0)
+            addDetails.addWidget(TID, count, 1)
+            addDetails.addWidget(Title, count, 2)
+            addDetails.addWidget(Date, count, 3)
+            addDetails.addWidget(Admin, count, 4)
+            count += 1
+
+        addwid = QWidget()
+        addwindow = QVBoxLayout(addwid)
+        addwindow.addLayout(addDetails)
+        addwindow.setAlignment(Qt.AlignmentFlag.AlignTop)
+        addwindow.addStretch()
+
+        # set scroll area widget
+        self.windowscroll.setWidget(addwid)
+
 
     def adminModify(self):
         self.current.setText("History")
@@ -390,35 +465,58 @@ class Main_window(QMainWindow):
         self.modifiedbt.show()
         self.removebt.show()
 
-        self.HistoryNo = QVBoxLayout()
-        self.HistoryNoTitle = QLabel("No.")
-        self.HistoryNoTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryNo.addWidget(self.HistoryNoTitle)
+        HistoryNoTitle = QLabel("No.")
+        HistoryNoTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.HistoryTrainingID = QVBoxLayout()
-        self.HistoryTrainingIDTitle = QLabel("Training ID")
-        self.HistoryTrainingIDTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryTrainingID.addWidget(self.HistoryTrainingIDTitle)
+        HistoryTrainingIDTitle = QLabel("Training ID")
+        HistoryTrainingIDTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.HistoryTraining = QVBoxLayout()
-        self.HistoryTrainingTitle = QLabel("Training Title")
-        self.HistoryTrainingTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryTraining.addWidget(self.HistoryTrainingTitle)
+        HistoryTrainingTitle = QLabel("Training Title")
+        HistoryTrainingTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.HistoryDate = QVBoxLayout()
-        self.HistoryDateList = QLabel("Date")
-        self.HistoryDateList.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryDate.addWidget(self.HistoryDateList)
+        HistoryDateList = QLabel("Date")
+        HistoryDateList.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.Historywid = QWidget()
-        self.HistoryTable = QHBoxLayout(self.Historywid)
-        self.HistoryTable.addLayout(self.HistoryNo)
-        self.HistoryTable.addLayout(self.HistoryTrainingID)
-        self.HistoryTable.addLayout(self.HistoryTraining)
-        self.HistoryTable.addLayout(self.HistoryDate)
-        self.HistoryTable.setAlignment(Qt.AlignmentFlag.AlignTop)
+        HistoryAdminName = QLabel("Admin")
+        HistoryAdminName.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.windowscroll.setWidget(self.Historywid)
+        editDetails = QGridLayout()
+        editDetails.addWidget(HistoryNoTitle, 0, 0)
+        editDetails.addWidget(HistoryTrainingIDTitle, 0, 1)
+        editDetails.addWidget(HistoryTrainingTitle, 0, 2)
+        editDetails.addWidget(HistoryDateList, 0, 3)
+        editDetails.addWidget(HistoryAdminName, 0, 4)
+
+        editdata = []
+
+        for temp in self.edittrainingdata:
+            for tempa in self.tempdata:
+                if temp[1] == tempa[1]:
+                    editdata.append([tempa[0], temp[0], temp[1], temp[2]])
+
+        count = 1
+
+        for i in editdata:
+            number = QLabel(str(count))
+            TID = QLabel(i[2])
+            Title = QLabel(i[0])
+            Date = QLabel(i[3])
+            Admin = QLabel(i[1])
+            editDetails.addWidget(number, count, 0)
+            editDetails.addWidget(TID, count, 1)
+            editDetails.addWidget(Title, count, 2)
+            editDetails.addWidget(Date, count, 3)
+            editDetails.addWidget(Admin, count, 4)
+            count += 1
+
+        editwid = QWidget()
+        editwindow = QVBoxLayout(editwid)
+        editwindow.addLayout(editDetails)
+        editwindow.setAlignment(Qt.AlignmentFlag.AlignTop)
+        editwindow.addStretch()
+
+        # set scroll area widget
+        self.windowscroll.setWidget(editwid)
 
     def adminRemove(self):
         self.current.setText("History")
@@ -426,108 +524,159 @@ class Main_window(QMainWindow):
         self.modifiedbt.show()
         self.removebt.show()
 
-        self.HistoryNo = QVBoxLayout()
-        self.HistoryNoTitle = QLabel("No.")
-        self.HistoryNoTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryNo.addWidget(self.HistoryNoTitle)
+        HistoryNoTitle = QLabel("No.")
+        HistoryNoTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.HistoryTrainingID = QVBoxLayout()
-        self.HistoryTrainingIDTitle = QLabel("Training ID")
-        self.HistoryTrainingIDTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryTrainingID.addWidget(self.HistoryTrainingIDTitle)
+        HistoryTrainingIDTitle = QLabel("Training ID")
+        HistoryTrainingIDTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.HistoryTraining = QVBoxLayout()
-        self.HistoryTrainingTitle = QLabel("Training Title")
-        self.HistoryTrainingTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryTraining.addWidget(self.HistoryTrainingTitle)
+        HistoryTrainingTitle = QLabel("Training Title")
+        HistoryTrainingTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.HistoryDate = QVBoxLayout()
-        self.HistoryDateList = QLabel("Date")
-        self.HistoryDateList.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryDate.addWidget(self.HistoryDateList)
+        HistoryDateList = QLabel("Date")
+        HistoryDateList.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.Historywid = QWidget()
-        self.HistoryTable = QHBoxLayout(self.Historywid)
-        self.HistoryTable.addLayout(self.HistoryNo)
-        self.HistoryTable.addLayout(self.HistoryTrainingID)
-        self.HistoryTable.addLayout(self.HistoryTraining)
-        self.HistoryTable.addLayout(self.HistoryDate)
-        self.HistoryTable.setAlignment(Qt.AlignmentFlag.AlignTop)
+        HistoryAdminName = QLabel("Admin")
+        HistoryAdminName.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.windowscroll.setWidget(self.Historywid)
+        removeDetails = QGridLayout()
+        removeDetails.addWidget(HistoryNoTitle, 0, 0)
+        removeDetails.addWidget(HistoryTrainingIDTitle, 0, 1)
+        removeDetails.addWidget(HistoryTrainingTitle, 0, 2)
+        removeDetails.addWidget(HistoryDateList, 0, 3)
+        removeDetails.addWidget(HistoryAdminName, 0, 4)
+
+        removedata = []
+
+        for temp in self.removetrainingdata:
+            removedata.append([temp[0], temp[1], temp[2], temp[3]])
+
+        count = 1
+
+        for i in removedata:
+            number = QLabel(str(count))
+            TID = QLabel(i[3])
+            Title = QLabel(i[2])
+            Date = QLabel(i[1])
+            Admin = QLabel(i[0])
+            removeDetails.addWidget(number, count, 0)
+            removeDetails.addWidget(TID, count, 1)
+            removeDetails.addWidget(Title, count, 2)
+            removeDetails.addWidget(Date, count, 3)
+            removeDetails.addWidget(Admin, count, 4)
+            count += 1
+
+        removewid = QWidget()
+        removewindow = QVBoxLayout(removewid)
+        removewindow.addLayout(removeDetails)
+        removewindow.setAlignment(Qt.AlignmentFlag.AlignTop)
+        removewindow.addStretch()
+
+        # set scroll area widget
+        self.windowscroll.setWidget(removewid)
 
     def staffcomplete(self):
         self.current.setText("History")
         self.completedbt.show()
         self.rejectedbt.show()
 
-        self.HistoryNo = QVBoxLayout()
-        self.HistoryNoTitle = QLabel("No.")
-        self.HistoryNoTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryNo.addWidget(self.HistoryNoTitle)
+        HistoryNoTitle = QLabel("No.")
+        HistoryNoTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        HistoryTrainingID = QLabel("Training ID")
+        HistoryTrainingID.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        HistoryTrainingTitle = QLabel("Training Title")
+        HistoryTrainingTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        HistoryDateList = QLabel("Date")
+        HistoryDateList.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.HistoryTrainingID = QVBoxLayout()
-        self.HistoryTrainingIDTitle = QLabel("Training ID")
-        self.HistoryTrainingIDTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryTrainingID.addWidget(self.HistoryTrainingIDTitle)
+        completedetails = QGridLayout()
+        completedetails.addWidget(HistoryNoTitle, 0, 0)
+        completedetails.addWidget(HistoryTrainingID, 0, 1)
+        completedetails.addWidget(HistoryTrainingTitle, 0, 2)
+        completedetails.addWidget(HistoryDateList, 0, 3)
 
-        self.HistoryTraining = QVBoxLayout()
-        self.HistoryTrainingTitle = QLabel("Training Title")
-        self.HistoryTrainingTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryTraining.addWidget(self.HistoryTrainingTitle)
+        completedata = []
 
-        self.HistoryDate = QVBoxLayout()
-        self.HistoryDateList = QLabel("Date")
-        self.HistoryDateList.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryDate.addWidget(self.HistoryDateList)
+        for temp in self.done:
+            for tempa in self.completed:
+                if temp[0] == tempa[1]:
+                    completedata.append(tempa)
 
-        self.Historywid = QWidget()
-        self.HistoryTable = QHBoxLayout(self.Historywid)
-        self.HistoryTable.addLayout(self.HistoryNo)
-        self.HistoryTable.addLayout(self.HistoryTrainingID)
-        self.HistoryTable.addLayout(self.HistoryTraining)
-        self.HistoryTable.addLayout(self.HistoryDate)
-        self.HistoryTable.setAlignment(Qt.AlignmentFlag.AlignTop)
+        count = 1
 
-        self.windowscroll.setWidget(self.Historywid)
+        for i in completedata:
+            number = QLabel(str(count))
+            TID = QLabel(i[1])
+            Ttitle = QLabel(i[0])
+            Date = QLabel(i[2])
+            completedetails.addWidget(number, count, 0)
+            completedetails.addWidget(TID, count, 1)
+            completedetails.addWidget(Ttitle, count, 2)
+            completedetails.addWidget(Date, count, 3)
+            count += 1
+
+        completewid = QWidget()
+        completewindow = QVBoxLayout(completewid)
+        completewindow.addLayout(completedetails)
+        completewindow.setAlignment(Qt.AlignmentFlag.AlignTop)
+        completewindow.addStretch()
+
+        # set scroll area widget
+        self.windowscroll.setWidget(completewid)
 
     def staffreject(self):
-        self.current.setText("History")
-        self.HistoryNo = QVBoxLayout()
-        self.HistoryNoTitle = QLabel("No.")
-        self.HistoryNoTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryNo.addWidget(self.HistoryNoTitle)
+        HistoryNoTitle = QLabel("No.")
+        HistoryNoTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        HistoryTrainingID = QLabel("Training ID")
+        HistoryTrainingID.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        HistoryTrainingTitle = QLabel("Training Title")
+        HistoryTrainingTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
+        HistoryDateList = QLabel("Date")
+        HistoryDateList.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        self.HistoryTrainingID = QVBoxLayout()
-        self.HistoryTrainingIDTitle = QLabel("Training ID")
-        self.HistoryTrainingIDTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryTrainingID.addWidget(self.HistoryTrainingIDTitle)
+        rejectdetails = QGridLayout()
+        rejectdetails.addWidget(HistoryNoTitle, 0, 0)
+        rejectdetails.addWidget(HistoryTrainingID, 0, 1)
+        rejectdetails.addWidget(HistoryTrainingTitle, 0, 2)
+        rejectdetails.addWidget(HistoryDateList, 0, 3)
 
-        self.HistoryTraining = QVBoxLayout()
-        self.HistoryTrainingTitle = QLabel("Training Title")
-        self.HistoryTrainingTitle.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryTraining.addWidget(self.HistoryTrainingTitle)
+        rejectdata = []
+        for temp in self.rejecteddata:
+            for tempa in self.tempdata:
+                if temp[0] == tempa[1]:
+                    rejectdata.append(tempa)
 
-        self.HistoryDate = QVBoxLayout()
-        self.HistoryDateList = QLabel("Date")
-        self.HistoryDateList.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryDate.addWidget(self.HistoryDateList)
+        for temp in self.rejecteddata:
+            for tempa in self.ongoing:
+                if temp[0] == tempa[1]:
+                    rejectdata.append(tempa)
 
-        self.HistoryRejected = QVBoxLayout()
-        self.HistoryRejectedReason = QLabel("Rejected Reason")
-        self.HistoryRejectedReason.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
-        self.HistoryRejected.addWidget(self.HistoryRejectedReason)
+        for temp in self.rejecteddata:
+            for tempa in self.completed:
+                if temp[0] == tempa[1]:
+                    rejectdata.append(tempa)
 
-        self.Historywid = QWidget()
-        self.HistoryTable = QHBoxLayout(self.Historywid)
-        self.HistoryTable.addLayout(self.HistoryNo)
-        self.HistoryTable.addLayout(self.HistoryTrainingID)
-        self.HistoryTable.addLayout(self.HistoryTraining)
-        self.HistoryTable.addLayout(self.HistoryDate)
-        self.HistoryTable.addLayout(self.HistoryRejected)
-        self.HistoryTable.setAlignment(Qt.AlignmentFlag.AlignTop)
+        count = 1
 
-        self.windowscroll.setWidget(self.Historywid)
+        for i in rejectdata:
+            number = QLabel(str(count))
+            TID = QLabel(i[1])
+            Ttitle = QLabel(i[0])
+            Date = QLabel(i[2])
+            rejectdetails.addWidget(number, count, 0)
+            rejectdetails.addWidget(TID, count, 1)
+            rejectdetails.addWidget(Ttitle, count, 2)
+            rejectdetails.addWidget(Date, count, 3)
+            count += 1
+
+        rejectwid = QWidget()
+        rejectwindow = QVBoxLayout(rejectwid)
+        rejectwindow.addLayout(rejectdetails)
+        rejectwindow.setAlignment(Qt.AlignmentFlag.AlignTop)
+        rejectwindow.addStretch()
+
+        # set scroll area widget
+        self.windowscroll.setWidget(rejectwid)
 
 
     def dashboard(self):
@@ -542,7 +691,7 @@ class Main_window(QMainWindow):
         if role == 'hr':
             self.approvebt.hide()
             self.rejectbt.hide()
-            self.droppedbt.hide()
+
 
         self.dashboardwid = QWidget()
         self.dashboardwindow = QVBoxLayout(self.dashboardwid)
@@ -560,23 +709,9 @@ class Main_window(QMainWindow):
         self.windowscroll.setWidget(self.trainingwid)
         print("Training List Status")
 
-    def dropParticipant(self):
-        self.current.setText("Drop Participant")
-        self.approvebt.hide()
-        self.rejectbt.hide()
-        self.droppedbt.hide()
-        self.dropwid = QWidget()
-        self.dropwindow = QVBoxLayout(self.dropwid)
-        self.loadDrop()
-        self.windowscroll.setWidget(self.dropwid)
-        print("Drop Participant")
 
     def training(self):
         self.current.setText("Training")
-        print("Bill")
-
-    def drop(self):
-        self.current.setText("Drop")
         print("Bill")
 
     def account(self):
@@ -598,10 +733,7 @@ class Main_window(QMainWindow):
             self.trainingbt.setFixedSize(200, 50)
             self.trainingbt.setStyleSheet("QPushButton { text-align: left;}")
             self.trainingbt.setText("Training List")
-        if role == "hr":
-            self.dropbt.setFixedSize(200, 50)
-            self.dropbt.setStyleSheet("QPushButton { text-align: left;}")
-            self.dropbt.setText("Drop Participant")
+
         self.historybt.setFixedSize(200, 50)
         self.historybt.setStyleSheet("QPushButton { text-align: left;}")
         self.historybt.setText("History")
@@ -625,20 +757,17 @@ class Main_window(QMainWindow):
             self.trainingbt.setStyleSheet("QPushButton { text-align: center;}")
             self.trainingbt.setText("")
         if role == "hr":
-            self.dropbt.setFixedSize(50, 50)
-            self.dropbt.setStyleSheet("QPushButton { text-align: center;}")
-            self.dropbt.setText("")
-        self.historybt.setFixedSize(50, 50)
-        self.historybt.setStyleSheet("QPushButton { text-align: center;}")
-        self.historybt.setText("")
-        self.accountButton.setFixedSize(50, 50)
-        self.accountButton.setStyleSheet("QPushButton { text-align: center;}")
-        self.accountButton.setText("")
-        self.logoutButton.setFixedSize(50, 50)
-        self.logoutButton.setStyleSheet("QPushButton { text-align: center;}")
-        self.logoutButton.setText("")
-        self.title.setHidden(True)
-        self.expandButton.clicked.connect(self.expand)
+            self.historybt.setFixedSize(50, 50)
+            self.historybt.setStyleSheet("QPushButton { text-align: center;}")
+            self.historybt.setText("")
+            self.accountButton.setFixedSize(50, 50)
+            self.accountButton.setStyleSheet("QPushButton { text-align: center;}")
+            self.accountButton.setText("")
+            self.logoutButton.setFixedSize(50, 50)
+            self.logoutButton.setStyleSheet("QPushButton { text-align: center;}")
+            self.logoutButton.setText("")
+            self.title.setHidden(True)
+            self.expandButton.clicked.connect(self.expand)
 
 
 if __name__ == '__main__':
