@@ -899,14 +899,114 @@ class Main_window(QMainWindow):
         #set scroll area widget
         self.windowscroll.setWidget(pendingwid)
 
-    def loadapprove(self):#tbd
-        print("bill")
+    def loadapprove(self):
+        TrainingNoTitle = QLabel("No.")
+        TrainingID = QLabel("Training ID")
+        TrainingTitle = QLabel("Training Title")
+        TrainingDate = QLabel("Date")
+        TrainingTime = QLabel("Time")
+        TrainingVenue = QLabel("Venue")
+        ApproverID = QLabel("Approver ID")
 
-    def loadongoing(self):#tbd
-        print("bill")
+        approvedetials = QGridLayout()
+        approvedetials.addWidget(TrainingNoTitle,0,0)
+        approvedetials.addWidget(TrainingID,0,1)
+        approvedetials.addWidget(TrainingTitle,0,2)
+        approvedetials.addWidget(TrainingDate,0,3)
+        approvedetials.addWidget(TrainingTime,0,4)
+        approvedetials.addWidget(TrainingVenue,0,5)
+        approvedetials.addWidget(ApproverID,0,6)
+
+        approvedata = []
+
+        for temp in self.approveddata:
+            for tempa in self.tempdata:
+                if temp[0] == tempa[1]:
+                    approvedata.append([tempa[0], tempa[1], tempa[2], tempa[3], tempa[4], temp[2]])
+        
+        count = 1
+
+        for i in approvedata:
+            number = QLabel(str(count))
+            TID = QLabel(i[1])
+            Ttitle = QLabel(i[0])
+            Date = QLabel(i[2])
+            Time = QLabel(i[3])
+            Venue = QLabel(i[4])
+            ApproverID = QLabel(i[5])
+
+            approvedetials.addWidget(number,count,0)
+            approvedetials.addWidget(TID,count,1)
+            approvedetials.addWidget(Ttitle,count,2)
+            approvedetials.addWidget(Date,count,3)
+            approvedetials.addWidget(Time,count,4)
+            approvedetials.addWidget(Venue,count,5)
+            approvedetials.addWidget(ApproverID,count,6)
+
+            count+=1
+
+        approvewid = QWidget()
+        approvewindow = QVBoxLayout(approvewid)
+        approvewindow.addLayout(approvedetials)
+        approvewindow.setAlignment(Qt.AlignmentFlag.AlignTop)
+        approvewindow.addStretch()
+
+        #set scroll area widget
+        self.windowscroll.setWidget(approvewid)
+
+    def loadongoing(self):
+        TrainingNoTitle = QLabel("No.")
+        TrainingID = QLabel("Training ID")
+        TrainingTitle = QLabel("Training Title")
+        TrainingDate = QLabel("Date")
+        TrainingTime = QLabel("Time")
+        TrainingVenue = QLabel("Venue")
+
+        ongoingdetials = QGridLayout()
+        ongoingdetials.addWidget(TrainingNoTitle,0,0)
+        ongoingdetials.addWidget(TrainingID,0,1)
+        ongoingdetials.addWidget(TrainingTitle,0,2)
+        ongoingdetials.addWidget(TrainingDate,0,3)
+        ongoingdetials.addWidget(TrainingTime,0,4)
+        ongoingdetials.addWidget(TrainingVenue,0,5)
+
+        ongoingdata = []
+
+        for temp in self.done:
+            for tempa in self.ongoing:
+                if temp[0] == tempa[1]:
+                    ongoingdata.append(tempa)
+        
+        count = 1
+
+        for i in ongoingdata:
+            number = QLabel(str(count))
+            TID = QLabel(i[1])
+            Ttitle = QLabel(i[0])
+            Date = QLabel(i[2])
+            Time = QLabel(i[3])
+            Venue = QLabel(i[4])
+            
+            ongoingdetials.addWidget(number,count,0)
+            ongoingdetials.addWidget(TID,count,1)
+            ongoingdetials.addWidget(Ttitle,count,2)
+            ongoingdetials.addWidget(Date,count,3)
+            ongoingdetials.addWidget(Time,count,4)
+            ongoingdetials.addWidget(Venue,count,5)
+
+            count+=1
+
+        ongoingwid = QWidget()
+        ongoingwindow = QVBoxLayout(ongoingwid)
+        ongoingwindow.addLayout(ongoingdetials)
+        ongoingwindow.setAlignment(Qt.AlignmentFlag.AlignTop)
+        ongoingwindow.addStretch()
+
+        #set scroll area widget
+        self.windowscroll.setWidget(ongoingwid)
 
     #history
-    #admin * big problem
+    #admin
     def adminAdded(self):
         HistoryNoTitle = QLabel("No.")
         HistoryTrainingIDTitle = QLabel("Training ID")
