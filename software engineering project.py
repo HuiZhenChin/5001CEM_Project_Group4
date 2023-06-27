@@ -9,14 +9,14 @@ class Main_window(QMainWindow):
     def __init__(self,role):
         QMainWindow.__init__(self)#role is department
         #update database data and load data
-        self.credential = ['ID','101WIZARD','011-10533650','jqgammers@gmail.com',role,'C:/Users/JQgam/OneDrive/桌面/TJQ/PC backgrounds/normal pic/nightingale.jpg']
-        self.tempdata=[['Admin', 'T104', '23Dec2025', '03.04', 'Hall A', '3000', 'C:/Users/JQgam/OneDrive/桌面/TJQ/PC backgrounds/normal pic/nightingale.jpg', '30', None,'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .'],
-                       ['Bill', 'T105', '23Dec2024', '04.05', 'Hall B', '30000', 'C:/Users/JQgam/OneDrive/桌面/TJQ/PC backgrounds/normal pic/pg1.jpg', '30', None,'Cybersecurity is the practice of protecting critical systems and sensitive information from digital attacks. In this training, participants will learn about different types of cyber attacks, acquire knowledge and skills to protect digital systems, networks, and data from unauthorized access and involve in hands-on practical activities.'],
-                       ['MARKETING', 'T103', '6/24/2023', '10.00 AM', 'Alpha Enterprise Conference Hall', '2000', 'C:/Users/JQgam/OneDrive/桌面/TJQ/PC backgrounds/normal pic/nightingale.jpg', '45', None, 'Marketing is the activity of promoting, market researching and advertising of products or services. In this training, participants will learn about market research, consumer behaviour, branding, advertising and digital marketing strategies, involve in interactive sessions to study the real-world case studies,  gain insight into promoting and building the digital platforms and apply data analytics skills to implement the marketing plans.'],
-                       ['Hill', 'T110', '23Dec2025', '03.04', 'Hall A', '3000', 'C:/Users/JQgam/OneDrive/桌面/TJQ/PC backgrounds/normal pic/nightingale.jpg', '30', None,'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .'],
-                       ['Gill', 'T109', '23Dec2025', '03.04', 'Hall A', '3000', 'C:/Users/JQgam/OneDrive/桌面/TJQ/PC backgrounds/normal pic/nightingale.jpg', '30', None,'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .'],
-                       ['Mill', 'T145', '23Dec2025', '03.04', 'Hall A', '3000', 'C:/Users/JQgam/OneDrive/桌面/TJQ/PC backgrounds/normal pic/nightingale.jpg', '30', None,'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .'],
-                       ['Fuck You', 'T123', '23Dec2025', '03.04', 'Hall A', '3000', 'C:/Users/JQgam/OneDrive/桌面/TJQ/PC backgrounds/normal pic/nightingale.jpg', '30', None,'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
+        self.credential = ['ID','101WIZARD','011-10533650','jqgammers@gmail.com',role,'']
+        self.tempdata=[['Admin', 'T104', '23Dec2025', '03.04', 'Hall A', '3000', '', '30', None,'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .'],
+                       ['Bill', 'T105', '23Dec2024', '04.05', 'Hall B', '30000', '', '30', None,'Cybersecurity is the practice of protecting critical systems and sensitive information from digital attacks. In this training, participants will learn about different types of cyber attacks, acquire knowledge and skills to protect digital systems, networks, and data from unauthorized access and involve in hands-on practical activities.'],
+                       ['MARKETING', 'T103', '6/24/2023', '10.00 AM', 'Alpha Enterprise Conference Hall', '2000', '', '45', None, 'Marketing is the activity of promoting, market researching and advertising of products or services. In this training, participants will learn about market research, consumer behaviour, branding, advertising and digital marketing strategies, involve in interactive sessions to study the real-world case studies,  gain insight into promoting and building the digital platforms and apply data analytics skills to implement the marketing plans.'],
+                       ['Hill', 'T110', '23Dec2025', '03.04', 'Hall A', '3000', '', '30', None,'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .'],
+                       ['Gill', 'T109', '23Dec2025', '03.04', 'Hall A', '3000', '', '30', None,'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .'],
+                       ['Mill', 'T145', '23Dec2025', '03.04', 'Hall A', '3000', '', '30', None,'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .'],
+                       ['Fuck You', 'T123', '23Dec2025', '03.04', 'Hall A', '3000', '', '30', None,'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
         if role == "hr":                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
             self.setWindowTitle("HR Assistant")
             self.registereddata=[['T104','S101'],['T104','S102'],['T105','S101']]
@@ -26,16 +26,16 @@ class Main_window(QMainWindow):
                               ['S102','NAME2','012-136880234','DP STAFF'],
                               ['S103','NAME3','012-134500091','AP STAFF'],
                               ['S104','NAME4','016-134500235','IT STAFF']]
-            self.ongoing = [['Akau', 'T167', '23Dec2025', '03.04', 'Hall A', '3000', 'C:/Users/JQgam/OneDrive/桌面/TJQ/PC backgrounds/normal pic/nightingale.jpg', '30', None,'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
-            self.completed = [['Dill', 'T111', '23Dec2025', '03.04', 'Hall A', '3000', 'C:/Users/JQgam/OneDrive/桌面/TJQ/PC backgrounds/normal pic/nightingale.jpg', '30', None,'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
+            self.ongoing = [['Akau', 'T167', '23Dec2025', '03.04', 'Hall A', '3000', '', '30', None,'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
+            self.completed = [['Dill', 'T111', '23Dec2025', '03.04', 'Hall A', '3000', '', '30', None,'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
         
         elif role == "admin":
             self.setWindowTitle("Admin")
             self.addedtrainingdata = [['AID','T104','01Dec2025']]
             self.edittrainingdata = [['AID','T110','20Dec2025']]
-            self.removetrainingdata = [['AID','21Dec2025','Dill', 'T111', '23Dec2025', '03.04', 'Hall A', '3000', 'C:/Users/JQgam/OneDrive/桌面/TJQ/PC backgrounds/normal pic/nightingale.jpg', '30', None,'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
-            self.ongoing = [['Akau', 'T167', '23Dec2025', '03.04', 'Hall A', '3000', 'C:/Users/JQgam/OneDrive/桌面/TJQ/PC backgrounds/normal pic/nightingale.jpg', '30', None,'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
-            self.completed = [['Dill', 'T111', '23Dec2025', '03.04', 'Hall A', '3000', 'C:/Users/JQgam/OneDrive/桌面/TJQ/PC backgrounds/normal pic/nightingale.jpg', '30', None,'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
+            self.removetrainingdata = [['AID','21Dec2025','Dill', 'T111', '23Dec2025', '03.04', 'Hall A', '3000', '', '30', None,'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
+            self.ongoing = [['Akau', 'T167', '23Dec2025', '03.04', 'Hall A', '3000', '', '30', None,'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
+            self.completed = [['Dill', 'T111', '23Dec2025', '03.04', 'Hall A', '3000', '', '30', None,'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
 
         else:
             self.setWindowTitle("Staff")
@@ -43,8 +43,8 @@ class Main_window(QMainWindow):
             self.approveddata=[['T105','SID','HRID']]
             self.rejecteddata=[['T103','SID','HRID'],['T167','SID','HRID']]
             self.done=[['T111','SID','HRID']]
-            self.ongoing = [['Akau', 'T167', '23Dec2025', '03.04', 'Hall A', '3000', 'C:/Users/JQgam/OneDrive/桌面/TJQ/PC backgrounds/normal pic/nightingale.jpg', '30', None,'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
-            self.completed = [['Dill', 'T111', '23Dec2025', '03.04', 'Hall A', '3000', 'C:/Users/JQgam/OneDrive/桌面/TJQ/PC backgrounds/normal pic/nightingale.jpg', '30', None,'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
+            self.ongoing = [['Akau', 'T167', '23Dec2025', '03.04', 'Hall A', '3000', '', '30', None,'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
+            self.completed = [['Dill', 'T111', '23Dec2025', '03.04', 'Hall A', '3000', '', '30', None,'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
         
         self.widget = QWidget(self)
         self.title = QLabel(role)
@@ -337,6 +337,7 @@ class Main_window(QMainWindow):
         t_dep = self.newtrainingdepartmentinput.currentData()
         t_description = self.newtrainingdescriptioninput.text()
         self.tempdata.append([t_title,t_ID,t_Date,t_Time,t_Venue,t_Cost,t_img,t_MaxPar,t_dep,t_description])
+        self.addedtrainingdata.append(['AID',t_ID,'Date'])
         self.dashboard()
 
     def edittraining(self,id):
@@ -461,8 +462,9 @@ class Main_window(QMainWindow):
         for temp in self.tempdata:
             if self.data == temp:
                 self.tempdata.remove(temp)
-                self.tempdata.append([t_title,t_ID,t_Date,t_Time,t_Venue,t_Cost,t_img,t_MaxPar,t_dep,t_description])
-                print(temp)
+        self.tempdata.append([t_title,t_ID,t_Date,t_Time,t_Venue,t_Cost,t_img,t_MaxPar,t_dep,t_description])
+        self.edittrainingdata.append(['AID',t_ID,'Date'])
+        print(self.edittrainingdata)
         self.dashboard()
 
     def removetraining(self,id):
@@ -486,13 +488,14 @@ class Main_window(QMainWindow):
         for temp in self.tempdata:
             if self.data == temp:
                 self.tempdata.remove(temp)
-                print(temp)  
+                self.removetrainingdata.append(['AID','Date',temp[0],temp[1],temp[2],temp[3],temp[4],temp[5],temp[6],temp[7],temp[8],temp[9]])
+                print(['AID','Date',temp[0],temp[1],temp[2],temp[3],temp[4],temp[5],temp[6],temp[7],temp[8],temp[9]])  
 
         #load window
         self.dashboard()    
  
     #staff
-    def register(self,id):#incomplete
+    def register(self,id):
         count = 0
         for button in self.registerbtgroup.buttons():
             if button != id:
@@ -637,8 +640,6 @@ class Main_window(QMainWindow):
                     self.registereddata.remove(request)
                     request.append('HRID')
                     self.approveddata.append(request)
-        print(self.registereddata)
-        print(self.approveddata)
 
         self.dashboard()
 
@@ -660,8 +661,6 @@ class Main_window(QMainWindow):
                     self.registereddata.remove(request)
                     request.append('HRID')
                     self.rejecteddata.append(request)
-        print(self.registereddata)
-        print(self.rejecteddata)
 
         self.dashboard()
 
