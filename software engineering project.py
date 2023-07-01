@@ -38,24 +38,24 @@ class LoginPage(QWidget):
         # Set the layout for the window
         self.setLayout(self.layout)
 
-    def login(self):
+    def login(self):#work on it
         username = self.username_input.text()
         password = self.password_input.text()
 
         # Perform login validation
         if username == "admin" and password == "password":
             role = "admin"
-            credential = ['ID','101WIZARD','011-10533650','jqgammers@gmail.com',username,'']
+            credential = ['ID','101WIZARD','011-10533650','jqgammers@gmail.com',username,'','ps']
             self.close()
             self.openwindow(role,credential)
         elif username == "hr" and password == "password":
             role= "hr"
-            credential = ['ID','101WIZARD','011-10533650','jqgammers@gmail.com',username,'']
+            credential = ['ID','101WIZARD','011-10533650','jqgammers@gmail.com',username,'','ps']
             self.close()
             self.openwindow(role,credential)
         elif username == "staff" and password == "password":
             role= "staff"
-            credential = ['ID','101WIZARD','011-10533650','jqgammers@gmail.com',username,'']
+            credential = ['ID','101WIZARD','011-10533650','jqgammers@gmail.com',username,'','ps']
             self.close()
             self.openwindow(role,credential)
         else:
@@ -65,10 +65,9 @@ class LoginPage(QWidget):
         self.mainwindow = Main_window(role,credential)
         self.mainwindow.show()
 
-
 class Main_window(QMainWindow):
     def __init__(self, role,credential):
-        QMainWindow.__init__(self)  # role is department
+        QMainWindow.__init__(self)
         # update database data and load data
         self.role = role
         self.credential = credential
@@ -91,10 +90,10 @@ class Main_window(QMainWindow):
             self.registereddata = [['T104', 'S101'], ['T104', 'S102'], ['T105', 'S101']]
             self.approveddata = [['T105', 'S104', 'HRID']]
             self.rejecteddata = [['T103', 'S104', 'HRID']]
-            self.stafflist = [['S101', 'NAME1', '011-134500234', 'IT STAFF'],
-                              ['S102', 'NAME2', '012-136880234', 'DP STAFF'],
-                              ['S103', 'NAME3', '012-134500091', 'AP STAFF'],
-                              ['S104', 'NAME4', '016-134500235', 'IT STAFF']]
+            self.stafflist = [['S101', 'NAME1', '011-134500234','jqgammers@gmail.com', 'IT STAFF','pic','ps'],
+                              ['S102', 'NAME2', '012-136880234','jqgammers@gmail.com', 'DP STAFF','pic','ps'],
+                              ['S103', 'NAME3', '012-134500091','jqgammers@gmail.com', 'AP STAFF','pic','ps'],
+                              ['S104', 'NAME4', '016-134500235','jqgammers@gmail.com', 'IT STAFF','pic','ps']]
             self.ongoing = [['Akau', 'T167', '23Dec2025', '03.04', 'Hall A', '3000', '', None,
                              'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
             self.completed = [['Dill', 'T111', '23Dec2025', '03.04', 'Hall A', '3000', '', None,
@@ -102,6 +101,9 @@ class Main_window(QMainWindow):
 
         elif self.role == "admin":
             self.setWindowTitle("Admin")
+            self.registereddata = [['T104', 'SID']]
+            self.approveddata = [['T105', 'SID', 'HRID']]
+            self.rejecteddata = [['T103', 'SID', 'HRID'], ['T167', 'SID', 'HRID']]
             self.addedtrainingdata = [['AID', 'T104', '01Dec2025']]
             self.edittrainingdata = [['AID', 'T110', '20Dec2025']]
             self.removetrainingdata = [['AID', '21Dec2025', 'Dill', 'T111', '23Dec2025', '03.04', 'Hall A', '3000', '', None,
@@ -124,7 +126,7 @@ class Main_window(QMainWindow):
 
         self.widget = QWidget(self)
         self.title = QLabel(self.role)
-        self.title.setStyleSheet("QLabel{font-size: 18pt;}")
+        self.title.setStyleSheet("QLabel{font-size: 18pt;color:white;}")
         self.current = QLabel("DashBoard")
         self.current.setStyleSheet("QLabel{font-size: 18pt;}")
 
@@ -182,8 +184,7 @@ class Main_window(QMainWindow):
             self.ongoingbt.hide()
 
         # additional validation lists
-        if self.role == "admin" or self.role == 'staff':
-            self.filterlist = []
+        self.filterlist = []
 
         # scroll area
         self.dashboardwid = QWidget()
@@ -227,29 +228,42 @@ class Main_window(QMainWindow):
         self.content.addWidget(self.windowscroll)
 
         # side menu
-        icon = qta.icon("fa.angle-double-right")
+        #expand contract button
+        icon = qta.icon("fa.angle-double-right",color='white')
         self.expandButton = QPushButton(icon, '')
         self.expandButton.setIconSize(QSize(35, 35))
         self.expandButton.setFixedSize(50, 50)
+        self.expandButton.setStyleSheet("QPushButton{border-style: outset;color: #ffffff;}")
         self.expandButton.clicked.connect(self.expand)
 
         # dashboard button
-        self.dashboardbt = QPushButton(qta.icon("ei.dashboard"), '')
+        self.dashboardbt = QPushButton(qta.icon("ei.dashboard",color='white'), '')
         self.dashboardbt.setIconSize(QSize(35, 35))
         self.dashboardbt.setFixedSize(50, 50)
+        self.dashboardbt.setStyleSheet("QPushButton{border-style: outset;color: #ffffff;}")
         self.dashboardbt.clicked.connect(self.dashboard)
 
         # training list button
         if self.role == "staff":
-            self.trainingbt = QPushButton(qta.icon("fa5.list-alt"), '')
+            self.trainingbt = QPushButton(qta.icon("fa5.list-alt",color='white'), '')
             self.trainingbt.setIconSize(QSize(35, 35))
             self.trainingbt.setFixedSize(50, 50)
+            self.trainingbt.setStyleSheet("QPushButton{border-style: outset;color: #ffffff;}")
             self.trainingbt.clicked.connect(self.training)
 
+        #add department button
+        if self.role == "hr":
+            self.adddepartmentbt = QPushButton(qta.icon("ei.group-alt",color='white'),'')
+            self.adddepartmentbt.setIconSize(QSize(35, 35))
+            self.adddepartmentbt.setFixedSize(50, 50)
+            self.adddepartmentbt.setStyleSheet("QPushButton{border-style: outset;color: #ffffff;}")
+            self.adddepartmentbt.clicked.connect(self.adddepartment)
+
         # historybutton
-        self.historybt = QPushButton(qta.icon("msc.history"), '')
+        self.historybt = QPushButton(qta.icon("msc.history",color='white'), '')
         self.historybt.setIconSize(QSize(35, 35))
         self.historybt.setFixedSize(50, 50)
+        self.historybt.setStyleSheet("QPushButton{border-style: outset;color: #ffffff;}")
         self.historybt.clicked.connect(self.history)
 
         # profile button
@@ -267,15 +281,17 @@ class Main_window(QMainWindow):
             self.accountButton = QPushButton(t_image, '')
             self.accountButton.setIconSize(QSize(35, 35))
         else:
-            self.accountButton = QPushButton(qta.icon("msc.account"), '')
+            self.accountButton = QPushButton(qta.icon("msc.account",color='white'), '')
             self.accountButton.setIconSize(QSize(35, 35))
         self.accountButton.setFixedSize(50, 50)
+        self.accountButton.setStyleSheet("QPushButton{border-style: outset;color: #ffffff;}")
         self.accountButton.clicked.connect(self.account)
 
         # logout button
-        self.logoutButton = QPushButton(qta.icon("ri.logout-box-r-line"), '')
+        self.logoutButton = QPushButton(qta.icon("ri.logout-box-r-line",color='white'), '')
         self.logoutButton.setIconSize(QSize(35, 35))
         self.logoutButton.setFixedSize(50, 50)
+        self.logoutButton.setStyleSheet("QPushButton{border-style: outset;color: #ffffff;}")
         self.logoutButton.clicked.connect(self.logout)
 
         self.sidemenuheader = QHBoxLayout()
@@ -288,6 +304,8 @@ class Main_window(QMainWindow):
         self.sidemenucontent.addWidget(self.dashboardbt)
         if self.role == "staff":
             self.sidemenucontent.addWidget(self.trainingbt)
+        if self.role == "hr":
+            self.sidemenucontent.addWidget(self.adddepartmentbt)
         self.sidemenucontent.addWidget(self.historybt)
         self.sidemenucontent.addStretch()
 
@@ -296,15 +314,19 @@ class Main_window(QMainWindow):
         self.sidemenufooter.addWidget(self.accountButton)
         self.sidemenufooter.addWidget(self.logoutButton)
 
-        self.sidemenu = QVBoxLayout()
-        self.sidemenu.addLayout(self.sidemenuheader, 1)
-        self.sidemenu.addLayout(self.sidemenucontent, 100)
-        self.sidemenu.addLayout(self.sidemenufooter, 1)
-        self.sidemenu.addStretch()
+        self.sidemenuc = QVBoxLayout()
+        self.sidemenuc.addLayout(self.sidemenuheader, 1)
+        self.sidemenuc.addLayout(self.sidemenucontent, 100)
+        self.sidemenuc.addLayout(self.sidemenufooter, 1)
+        self.sidemenuc.addStretch()
 
+        self.sidemenu = QWidget()
+        self.sidemenu.setLayout(self.sidemenuc)
+        self.sidemenu.setStyleSheet("background-color: #031C44;")
+        
         # whole window
         self.layout = QHBoxLayout()
-        self.layout.addLayout(self.sidemenu, 1)
+        self.layout.addWidget(self.sidemenu, 1)
         self.layout.addLayout(self.content, 100)
 
         self.widget.setLayout(self.layout)
@@ -391,7 +413,7 @@ class Main_window(QMainWindow):
 
         self.windowscroll.setWidget(self.addnewtrainingwin)
 
-    def created(self):
+    def created(self):#date data change
         t_title = self.newtrainingnameinput.text()
         t_ID = self.newtrainingIDinput.text()
         t_Date = self.newtrainingDateinput.text()
@@ -402,7 +424,7 @@ class Main_window(QMainWindow):
         t_dep = None
         t_description = self.newtrainingdescriptioninput.text()
         self.tempdata.append([t_title, t_ID, t_Date, t_Time, t_Venue, t_Cost, t_img, t_dep, t_description])
-        self.addedtrainingdata.append(['AID', t_ID, 'Date'])
+        self.addedtrainingdata.append([self.credential[0], t_ID, 'Date'])
         self.dashboard()
 
     def edittraining(self, id):
@@ -502,7 +524,7 @@ class Main_window(QMainWindow):
 
         self.windowscroll.setWidget(self.addnewtrainingwin)
 
-    def saveedit(self):
+    def saveedit(self):#date data change
         t_title = self.newtrainingnameinput.text()
         t_ID = self.newtrainingIDinput.text()
         t_Date = self.newtrainingDateinput.text()
@@ -516,11 +538,11 @@ class Main_window(QMainWindow):
             if self.data == temp:
                 self.tempdata.remove(temp)
         self.tempdata.append([t_title, t_ID, t_Date, t_Time, t_Venue, t_Cost, t_img, t_dep, t_description])
-        self.edittrainingdata.append(['AID', t_ID, 'Date'])
+        self.edittrainingdata.append([self.credential[0], t_ID, 'Date'])
         print(self.edittrainingdata)
         self.dashboard()
 
-    def removetraining(self, id):
+    def removetraining(self, id):#date data change
         count = 0
         for button in self.removebtgroup.buttons():
             print(button)
@@ -541,8 +563,19 @@ class Main_window(QMainWindow):
         for temp in self.tempdata:
             if self.data == temp:
                 self.tempdata.remove(temp)
-                self.removetrainingdata.append(
-                    ['AID', 'Date', temp[0], temp[1], temp[2], temp[3], temp[4], temp[5], temp[6], temp[7], temp[8]])
+                self.removetrainingdata.append([self.credential[0], 'Date', temp[0], temp[1], temp[2], temp[3], temp[4], temp[5], temp[6], temp[7], temp[8]])
+
+        for temp in self.registereddata:
+            if self.data[1] == temp[0]:
+                self.registereddata.remove(temp)
+        
+        for temp in self.approveddata:
+            if self.data[1] == temp[0]:
+                self.approveddata.remove(temp)
+
+        for temp in self.rejecteddata:
+            if self.data[1] == temp[0]:
+                self.rejecteddata.remove(temp)
 
         # load window
         self.dashboard()
@@ -563,7 +596,7 @@ class Main_window(QMainWindow):
                 if self.filterlist[count] == i[1]:
                     self.data = i
                     break
-        self.registereddata.append([self.data[1], 'ID'])
+        self.registereddata.append([self.data[1], self.credential[0]])
 
         self.dashboard()
 
@@ -581,8 +614,7 @@ class Main_window(QMainWindow):
         self.current.setText(self.data[1] + " : " + self.data[0])
 
         y = 0
-        label = QLabel()
-        label.setText("List or requester")
+        label = QLabel("List or requester")
         temp = []
         for request in self.registereddata:
             if request[0] == self.data[1]:
@@ -592,16 +624,12 @@ class Main_window(QMainWindow):
                         break
         self.checkbuttongroup = []
 
-        no = QLabel()
-        no.setText("No")
-        sid = QLabel()
-        sid.setText("Staff ID")
-        sname = QLabel()
-        sname.setText("Name")
-        phone = QLabel()
-        phone.setText("Phone")
-        dep = QLabel()
-        dep.setText("Department")
+        no = QLabel("No")
+        sid = QLabel("Staff ID")
+        sname = QLabel("Name")
+        phone = QLabel("Phone")
+        dep = QLabel("Department")
+
         self.checkall = QPushButton('Check All')
         self.checkall.setFixedWidth(150)
         self.checkall.clicked.connect(self.check_all_bt)
@@ -617,16 +645,12 @@ class Main_window(QMainWindow):
         for reqlist in temp:
             checkbutton = QCheckBox()
             checkbutton.setAutoExclusive(True)
-            no = QLabel()
-            no.setText(str(y))
-            sid = QLabel()
-            sid.setText(reqlist[0])
-            sname = QLabel()
-            sname.setText(reqlist[1])
-            phone = QLabel()
-            phone.setText(reqlist[2])
-            dep = QLabel()
-            dep.setText(reqlist[3])
+            no = QLabel(str(y))
+            sid = QLabel(reqlist[0])
+            sname = QLabel(reqlist[1])
+            phone = QLabel(reqlist[2])
+            dep = QLabel(reqlist[3])
+
             self.requestlist.addWidget(no, y, 0)
             self.requestlist.addWidget(sid, y, 1)
             self.requestlist.addWidget(sname, y, 2)
@@ -691,7 +715,7 @@ class Main_window(QMainWindow):
             for request in self.registereddata:
                 if temp[i] == request:
                     self.registereddata.remove(request)
-                    request.append('HRID')
+                    request.append(self.credential[0])
                     self.approveddata.append(request)
 
         self.dashboard()
@@ -712,7 +736,7 @@ class Main_window(QMainWindow):
             for request in self.registereddata:
                 if temp[i] == request:
                     self.registereddata.remove(request)
-                    request.append('HRID')
+                    request.append(self.credential[0])
                     self.rejecteddata.append(request)
 
         self.dashboard()
@@ -1054,6 +1078,277 @@ class Main_window(QMainWindow):
 
         # set scroll area widget
         self.windowscroll.setWidget(ongoingwid)
+
+    #add department
+    #hr only
+    def addselecteddepartment(self):#return to what page
+        checkedarray = []
+        for i, v in enumerate(self.departmentlist):
+            if v.isChecked():
+                checkedarray.append(i)
+
+        departmentstring = ''
+
+        for i in checkedarray:
+            departmentstring = departmentstring+','+self.depdata[i]
+
+        if self.data[7] != None:
+            departmentstring = departmentstring + self.data[7]
+
+        staff = []
+        for i in self.stafflist:
+            for x in checkedarray:
+                if i[4] == self.depdata[x]:
+                    staff.append(i[0])
+
+        for i in self.registereddata:
+            if i[0] == self.data[1]:
+                if i[1] in staff:
+                    self.registereddata.remove(i)
+
+        for i in self.rejecteddata:
+            if i[0] == self.data[1]:
+                if i[1] in staff:
+                    self.rejecteddata.remove(i)
+
+        for i in staff:
+            self.approveddata.append([self.data[1],i,self.credential[0]])
+        
+        self.tempdata.remove(self.data)
+        self.data[7] = departmentstring
+        self.tempdata.append(self.data)
+
+        self.adddepartment()
+
+    def insertdepartment(self,id):
+        count = 0
+        for button in self.adddepartmentbtgroup.buttons():
+            print(button)
+            print(id)
+            if button != id:
+                count += 1
+            else:
+                break
+
+        if self.filterlist == []:
+            self.data = self.adddepartmentdata[count]
+        else:
+            for i in self.tempdata:
+                if self.filterlist[count] == i[1]:
+                    self.data = i
+                    break
+        
+        t_title = QLabel(self.data[0])
+        t_ID = QLabel(self.data[1])
+        t_Date = QLabel(self.data[2])
+        t_Time = QLabel(self.data[3])
+        t_Venue = QLabel(self.data[4])
+        t_Cost = QLabel(self.data[5])
+        t_description = QLabel(self.data[8])
+
+        t_description.setWordWrap(True)
+
+        if self.data[6] != '':
+            t_img = QPixmap(self.data[6])
+            if t_img.width() > t_img.height():
+                trans = t_img.copy((t_img.width() / 4), 0, t_img.width(), t_img.width())
+            if t_img.height() > t_img.width():
+                trans = t_img.copy(0, (t_img.height() / 4), t_img.width(), t_img.width())
+            if t_img.height == t_img.width():
+                trans = t_img
+            t_image = QIcon(trans)
+
+        temppic = QVBoxLayout()
+        if self.data[6] != '':
+            picbt = QPushButton(t_image, '')
+            picbt.setIconSize(QSize(240, 240))
+        else:
+            picbt = QPushButton(qta.icon('ph.image'), '')
+            picbt.setIconSize(QSize(50, 50))
+        picbt.setFixedSize(250, 250)
+        temppic.addWidget(picbt)
+
+        self.departmentlist = []
+        y = 0
+        for i in self.stafflist:
+            if i[4] not in self.departmentlist:
+                self.departmentlist.append(i[4])
+                y+=1
+
+        if self.data[7] != None:
+            dep = self.data[7].rsplit(",")
+            for i in dep:
+                for x in self.departmentlist:
+                    print(x,i)
+                    if x==i:
+                        print("1")
+                        self.departmentlist.remove(x)
+                        y-=1
+        else:
+            dep = None
+
+        self.depdata = []
+        for x in self.departmentlist:
+            self.depdata.append(x)
+        print(self.depdata)
+
+        departmentdisplaytitle = QLabel("List Of Department")
+        departmentdisplay = QVBoxLayout()
+
+        for i, v in enumerate(self.departmentlist):
+            self.departmentlist[i] = QCheckBox(v)
+            departmentdisplay.addWidget(self.departmentlist[i])
+
+        adddepartmentbt = QPushButton('Add Department')
+        adddepartmentbt.setFixedWidth(150)
+        adddepartmentbt.clicked.connect(self.addselecteddepartment)
+
+        adddepartmentbtsection = QHBoxLayout()
+        adddepartmentbtsection.addWidget(adddepartmentbt)
+        adddepartmentbtsection.setAlignment(Qt.AlignmentFlag.AlignRight)
+
+        tempcontent = QVBoxLayout()
+        tempcontent.setAlignment(Qt.AlignmentFlag.AlignTop)
+        tempcontent.addWidget(t_title)
+        tempcontent.addWidget(t_ID)
+        tempcontent.addWidget(t_Date)
+        tempcontent.addWidget(t_Time)
+        tempcontent.addWidget(t_Venue)
+        tempcontent.addWidget(t_Cost)
+        tempcontent.addWidget(t_description)
+        tempcontent.addWidget(departmentdisplaytitle)
+        tempcontent.addLayout(departmentdisplay)
+        tempcontent.addLayout(adddepartmentbtsection)
+        tempcontent.addStretch()
+
+        tempcontentsection = QVBoxLayout()
+        tempcontentsection.addLayout(tempcontent)
+
+        tempwid = QWidget()
+        temp = QHBoxLayout(tempwid)
+        temp.addLayout(temppic)
+        temp.addLayout(tempcontentsection)
+
+        self.windowscroll.setWidget(tempwid)
+
+    def loaddepartment(self):
+        self.adddepartmentdata = []
+        count = 0
+
+        self.adddepartmentbtgroup = QButtonGroup()
+        for temp in self.tempdata:
+            self.adddepartmentdata.append(temp)
+
+        self.filterinput = QLineEdit()
+        filterbt = QPushButton(qta.icon('mdi.filter-outline'), 'Filter')
+        filterbt.clicked.connect(self.adddepartmentfilter)
+        filtersection = QHBoxLayout()
+        filtersection.addWidget(self.filterinput)
+        filtersection.addWidget(filterbt)
+
+        self.adddepartmentwindow.addLayout(filtersection)
+
+        for temp in self.adddepartmentdata:
+            self.adddepartmentwindow.addLayout(self.createadddepartmentbt(temp, count))
+            self.adddepartmentwindow.addStretch()
+            count += 1
+
+        self.adddepartmentbtgroup.buttonClicked.connect(self.insertdepartment)
+
+    def createadddepartmentbt(self, training, count):
+        t_title = QLabel(training[0])
+        t_ID = QLabel(training[1])
+        t_Date = QLabel(training[2])
+        t_Time = QLabel(training[3])
+        t_Venue = QLabel(training[4])
+        t_Cost = QLabel(training[5])
+        t_description = QLabel(training[8])
+
+        t_description.setWordWrap(True)
+
+        if training[6] != '':
+            t_img = QPixmap(training[6])
+            if t_img.width() > t_img.height():
+                trans = t_img.copy((t_img.width() / 4), 0, t_img.width(), t_img.width())
+            if t_img.height() > t_img.width():
+                trans = t_img.copy(0, (t_img.height() / 4), t_img.width(), t_img.width())
+            if t_img.height == t_img.width():
+                trans = t_img
+            t_image = QIcon(trans)
+
+        temppic = QVBoxLayout()
+        if training[6] != '':
+            picbt = QPushButton(t_image, '')
+            picbt.setIconSize(QSize(240, 240))
+        else:
+            picbt = QPushButton(qta.icon('ph.image'), '')
+            picbt.setIconSize(QSize(50, 50))
+        picbt.setFixedSize(250, 250)
+        temppic.addWidget(picbt)
+
+        tempcontent = QVBoxLayout()
+        tempcontent.setAlignment(Qt.AlignmentFlag.AlignTop)
+        tempcontent.addWidget(t_title)
+        tempcontent.addWidget(t_ID)
+        tempcontent.addWidget(t_Date)
+        tempcontent.addWidget(t_Time)
+        tempcontent.addWidget(t_Venue)
+        tempcontent.addWidget(t_Cost)
+        tempcontent.addWidget(t_description)
+        tempcontent.addStretch()
+
+        tempbtsection = QHBoxLayout()
+        tempbtsection.setAlignment(Qt.AlignmentFlag.AlignRight)
+
+        adddepbt = QPushButton("add department")
+        adddepbt.setFixedSize(100, 25)
+        self.adddepartmentbtgroup.addButton(adddepbt, count)
+        tempbtsection.addWidget(adddepbt)
+
+        tempcontentsection = QVBoxLayout()
+        tempcontentsection.addLayout(tempcontent)
+        tempcontentsection.addLayout(tempbtsection)
+
+        temp = QHBoxLayout()
+        temp.addLayout(temppic)
+        temp.addLayout(tempcontentsection)
+
+        return temp
+
+    def adddepartmentfilter(self):
+        self.filterlist = []
+        pattern = ".*" + self.filterinput.text() + ".*"
+        self.filterlist = [x[1] for x in self.adddepartmentdata if re.match(pattern, x[1])]
+
+        print(self.filterlist)
+
+        filterbt = QPushButton(qta.icon('mdi.filter-outline'), 'Filter')
+        filterbt.clicked.connect(self.adddepartmentfilter)
+        filtersection = QHBoxLayout()
+        filtersection.addWidget(self.filterinput)
+        filtersection.addWidget(filterbt)
+
+        self.adddepartmentbtgroup = QButtonGroup()
+
+        self.adddepartmentwid = QWidget()
+        self.adddepartmentwindow = QVBoxLayout(self.adddepartmentwid)
+        self.adddepartmentwindow.addLayout(filtersection)
+
+        count = 0
+        for temp in self.filterlist:
+            for tempa in self.tempdata:
+                if temp == tempa[1]:
+                    self.adddepartmentwindow.addLayout(self.createadddepartmentbt(tempa, count))
+                    self.adddepartmentwindow.addStretch()
+                    count += 1
+
+        self.adddepartmentbtgroup.buttonClicked.connect(self.insertdepartment)
+
+        self.adddepartmentwindow.setAlignment(Qt.AlignmentFlag.AlignTop)
+        self.adddepartmentwindow.addStretch()
+
+        # set scroll area widget
+        self.windowscroll.setWidget(self.adddepartmentwid)
 
     # history
     # admin
@@ -1427,36 +1722,26 @@ class Main_window(QMainWindow):
             profilepic.setIconSize(QSize(50, 50))
         profilepic.setFixedSize(300, 300)
 
-        Id = QLabel()
-        Idinput = QLabel()
-        Name = QLabel()
-        Nameinput = QLabel()
-        Phone = QLabel()
-        Phoneinput = QLabel()
-        Email = QLabel()
-        Emailinput = QLabel()
-        Department = QLabel()
-        Departmentinput = QLabel()
+        Id = QLabel("Employee ID")
+        Idinput = QLabel(self.credential[0])
+        Name = QLabel("Name")
+        Nameinput = QLabel(self.credential[1])
+        Phone = QLabel("Phone")
+        Phoneinput = QLabel(self.credential[2])
+        Email = QLabel("Email")
+        Emailinput = QLabel(self.credential[3])
+        Department = QLabel("Department")
+        Departmentinput = QLabel(self.credential[4])
 
-        Id.setText("Employee ID")
         Id.setStyleSheet("QLabel{font-size: 12pt;}")
-        Idinput.setText(self.credential[0])
         Idinput.setStyleSheet("QLabel{font-size: 12pt;}")
-        Name.setText("Name")
         Name.setStyleSheet("QLabel{font-size: 12pt;}")
-        Nameinput.setText(self.credential[1])
         Nameinput.setStyleSheet("QLabel{font-size: 12pt;}")
-        Phone.setText("Phone")
         Phone.setStyleSheet("QLabel{font-size: 12pt;}")
-        Phoneinput.setText(self.credential[2])
         Phoneinput.setStyleSheet("QLabel{font-size: 12pt;}")
-        Email.setText("Email")
         Email.setStyleSheet("QLabel{font-size: 12pt;}")
-        Emailinput.setText(self.credential[3])
         Emailinput.setStyleSheet("QLabel{font-size: 12pt;}")
-        Department.setText("Department")
         Department.setStyleSheet("QLabel{font-size: 12pt;}")
-        Departmentinput.setText(self.credential[4])
         Departmentinput.setStyleSheet("QLabel{font-size: 12pt;}")
 
         profilecontent = QGridLayout()
@@ -1478,7 +1763,7 @@ class Main_window(QMainWindow):
         self.accountwindow.addLayout(profilewindow)
 
     # functions
-    def dashboard(self):  # minor adjustment
+    def dashboard(self): 
         self.current.setText("DashBoard")
         if self.role == "admin":
             self.addbt.show()
@@ -1508,13 +1793,23 @@ class Main_window(QMainWindow):
 
     def training(self):
         self.current.setText("Training")
-        if self.role == "staff":
-            self.pendingbt.show()
-            self.approvebt.show()
-            self.ongoingbt.show()
-            self.completedbt.hide()
-            self.rejectedbt.hide()
-            self.loadpending()
+        self.pendingbt.show()
+        self.approvebt.show()
+        self.ongoingbt.show()
+        self.completedbt.hide()
+        self.rejectedbt.hide()
+        self.loadpending()
+
+    def adddepartment(self):
+        self.current.setText("Add Department")
+        self.adddepartmentwid = QWidget()
+        self.adddepartmentwindow = QVBoxLayout(self.adddepartmentwid)
+        self.loaddepartment()
+        self.adddepartmentwindow.setAlignment(Qt.AlignmentFlag.AlignTop)
+        self.adddepartmentwindow.addStretch()
+
+        # set scroll area widget
+        self.windowscroll.setWidget(self.adddepartmentwid)
 
     def history(self):
         self.current.setText("History")
@@ -1571,44 +1866,52 @@ class Main_window(QMainWindow):
     # sidemenu expand contract features
     def expand(self):
         self.expandButton.clicked.disconnect()
-        self.expandButton.setIcon(qta.icon("fa.angle-double-left"))
+        self.expandButton.setIcon(qta.icon("fa.angle-double-left",color='white'))
         self.dashboardbt.setFixedSize(200, 50)
-        self.dashboardbt.setStyleSheet("QPushButton { text-align: left;}")
+        self.dashboardbt.setStyleSheet("QPushButton { text-align: left;border-style: outset;color: #ffffff;}")
         self.dashboardbt.setText("DashBoard")
         if self.role == "staff":
             self.trainingbt.setFixedSize(200, 50)
-            self.trainingbt.setStyleSheet("QPushButton { text-align: left;}")
+            self.trainingbt.setStyleSheet("QPushButton { text-align: left;border-style: outset;color: #ffffff;}")
             self.trainingbt.setText("Training List")
+        if self.role == "hr":
+            self.adddepartmentbt.setFixedSize(200, 50)
+            self.adddepartmentbt.setStyleSheet("QPushButton { text-align: left;border-style: outset;color: #ffffff;}")
+            self.adddepartmentbt.setText("Add Department")
         self.historybt.setFixedSize(200, 50)
-        self.historybt.setStyleSheet("QPushButton { text-align: left;}")
+        self.historybt.setStyleSheet("QPushButton { text-align: left;border-style: outset;color: #ffffff;}")
         self.historybt.setText("History")
         self.accountButton.setFixedSize(200, 50)
-        self.accountButton.setStyleSheet("QPushButton { text-align: left;}")
-        self.accountButton.setText("Account")
+        self.accountButton.setStyleSheet("QPushButton { text-align: left;border-style: outset;color: #ffffff;}")
+        self.accountButton.setText(self.credential[1])
         self.logoutButton.setFixedSize(200, 50)
-        self.logoutButton.setStyleSheet("QPushButton { text-align: left;}")
+        self.logoutButton.setStyleSheet("QPushButton { text-align: left;border-style: outset;color: #ffffff;}")
         self.logoutButton.setText("Logout")
         self.title.show()
         self.expandButton.clicked.connect(self.contract)
 
     def contract(self):
         self.expandButton.clicked.disconnect()
-        self.expandButton.setIcon(qta.icon("fa.angle-double-right"))
+        self.expandButton.setIcon(qta.icon("fa.angle-double-right",color='white'))
         self.dashboardbt.setFixedSize(50, 50)
-        self.dashboardbt.setStyleSheet("QPushButton { text-align: center;}")
+        self.dashboardbt.setStyleSheet("QPushButton { text-align: center;border-style: outset;color: #ffffff;}")
         self.dashboardbt.setText("")
         if self.role == "staff":
             self.trainingbt.setFixedSize(50, 50)
-            self.trainingbt.setStyleSheet("QPushButton { text-align: center;}")
+            self.trainingbt.setStyleSheet("QPushButton { text-align: center;border-style: outset;color: #ffffff;}")
             self.trainingbt.setText("")
+        if self.role == "hr":
+            self.adddepartmentbt.setFixedSize(50, 50)
+            self.adddepartmentbt.setStyleSheet("QPushButton { text-align: center;border-style: outset;color: #ffffff;}")
+            self.adddepartmentbt.setText("")
         self.historybt.setFixedSize(50, 50)
-        self.historybt.setStyleSheet("QPushButton { text-align: center;}")
+        self.historybt.setStyleSheet("QPushButton { text-align: center;border-style: outset;color: #ffffff;}")
         self.historybt.setText("")
         self.accountButton.setFixedSize(50, 50)
-        self.accountButton.setStyleSheet("QPushButton { text-align: center;}")
+        self.accountButton.setStyleSheet("QPushButton { text-align: center;border-style: outset;color: #ffffff;}")
         self.accountButton.setText("")
         self.logoutButton.setFixedSize(50, 50)
-        self.logoutButton.setStyleSheet("QPushButton { text-align: center;}")
+        self.logoutButton.setStyleSheet("QPushButton { text-align: center;border-style: outset;color: #ffffff;}")
         self.logoutButton.setText("")
         self.title.setHidden(True)
         self.expandButton.clicked.connect(self.expand)
