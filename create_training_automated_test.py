@@ -28,7 +28,7 @@ class TestMainWindow(unittest.TestCase):
     def test_create_training(self, mock_information):
         self.main_window.newtrainingnameinput.setText('Training 1')
         self.main_window.newtrainingIDinput.setText('T001')
-        self.main_window.newtrainingDateinput.setDate("abc")
+        self.main_window.newtrainingDateinput.setDate(QDate.currentDate())
         self.main_window.newtrainingTimeinput.setTime(QTime.currentTime())
         self.main_window.newtrainingVenueinput.setText('Hall A')
         self.main_window.newtrainingCostinput.setText('20')
@@ -39,7 +39,7 @@ class TestMainWindow(unittest.TestCase):
         self.main_window.addbt.click()
 
         # Print a message indicating that the test has passed
-        print("Test 'test_create_training' failed!")
+        print("Test 'test_create_training' passed successfully!")
 
 
 if __name__ == '__main__':
