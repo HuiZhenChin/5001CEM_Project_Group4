@@ -32,6 +32,7 @@ class TestMainWindow(unittest.TestCase):
         self.main_window.newtrainingTimeinput.setTime(QTime.currentTime())
         self.main_window.newtrainingVenueinput.setText('Hall A')
         self.main_window.newtrainingCostinput.setText('20')
+        #not converted to base 64 binary code
         self.main_window.newtrainingimagepath.setText('D:\INTI Degree\DEG INTI-Sem 1\Software Engineering\Picture\ai.png')
         self.main_window.newtrainingdescriptioninput.setText('testing')
 
