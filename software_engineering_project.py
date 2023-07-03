@@ -140,33 +140,9 @@ class Main_window(QMainWindow):
         # update database data and load data
         self.role = role
         self.credential = credential
+        self.update()
         self.loaddata()
         
-        if self.role == "admin":
-            self.setWindowTitle("Admin")
-            self.registereddata = [['T104', 'SID']]
-            self.approveddata = [['T105', 'SID', 'HRID']]
-            self.rejecteddata = [['T103', 'SID', 'HRID'], ['T167', 'SID', 'HRID']]
-            self.addedtrainingdata = [['AID', 'T104', '6/30/2025']]
-            self.edittrainingdata = [['AID', 'T110', '6/30/2025']]
-            self.removetrainingdata = [['AID', '6/30/2023 9:45 PM', 'Dill', 'T111', '6/30/2025', '5:50 PM', 'Hall A', '3000', '', None,
-                            'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
-            self.ongoing = [['Akau', 'T167', '6/30/2025', '5:50 PM', 'Hall A', '3000', '', None,
-                             'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
-            self.completed = [['Dill', 'T111', '6/30/2025', '5:50 PM', 'Hall A', '3000', '', None,
-                               'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
-
-        else:
-            self.setWindowTitle("Staff")
-            self.registereddata = [['T104', 'SID']]
-            self.approveddata = [['T105', 'SID', 'HRID']]
-            self.rejecteddata = [['T103', 'SID', 'HRID'], ['T167', 'SID', 'HRID']]
-            self.done = [['T111', 'SID', 'HRID']]
-            self.ongoing = [['Akau', 'T167', '6/30/2025', '5:50 PM', 'Hall A', '3000', '', None,
-                             'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
-            self.completed = [['Dill', 'T111', '6/30/2025', '5:50 PM', 'Hall A', '3000', '', None,
-                               'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
-
         self.widget = QWidget(self)
         self.title = QLabel(self.role)
         self.title.setStyleSheet("QLabel{font-size: 18pt;color:white;}")
@@ -2065,7 +2041,90 @@ class Main_window(QMainWindow):
             if connection.is_connected():
                 cursor.close()
                 connection.close()
-                
+    #load data
+    def update(self):
+        try:
+            connection = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                password="",
+                database="test"
+            )
+            cursor = connection.cursor()
+
+            query1 = "SELECT * FROM training"
+            cursor.execute(query1)
+            tempdata1 = cursor.fetchall()
+
+            for temp1 in tempdata1:
+                if QDate.fromString(temp1[2],'M/d/yyyy') == QDate.currentDate():
+                    query2 = "DELETE FROM training WHERE ID = %s"
+                    values2 = (temp1[1],)
+                    cursor.execute(query2,values2)
+                    connection.commit()
+
+                    query3 = "INSERT INTO ongoing (TITLE, ID, DATE, TIME, VENUE, COST, IMAGE, DEPARTMENT, DESCRIPTION) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                    values3 = (temp1[0],temp1[1],temp1[2],temp1[3],temp1[4],temp1[5],temp1[6],temp1[7],temp1[8])
+                    cursor.execute(query3,values3)
+                    connection.commit()
+
+                    query4 = "SELECT * FROM approved WHERE TID = %s"
+                    values4 = (temp1[1],)
+                    cursor.execute(query4,values4)
+                    tempdata2 = cursor.fetchall()
+
+                    query5 = "DELETE FROM approved WHERE TID = %s"
+                    values5 = (temp1[1],)
+                    cursor.execute(query5,values5)
+                    connection.commit()
+
+                    cost = temp1[5] * len(tempdata2)
+                    print(temp1[1]+" ["+temp1[0]+"] cost per person is RM"+str(temp1[5])+" which results in total of RM"+str(cost)+" with total participant of "+str(len(tempdata2)))
+
+                    for temp2 in tempdata2:
+                        query6 = "INSERT INTO done (TID, SID, HID) VALUES (%s, %s, %s)"
+                        values6 = (temp2[0],temp2[1],temp2[2])
+                        cursor.execute(query6,values6)
+                        connection.commit()
+
+                    query7 = "SELECT * FROM registered WHERE TID = %s"
+                    values7 = (temp1[1],)
+                    cursor.execute(query7,values7)
+                    tempdata3 = cursor.fetchall()
+
+                    query8 = "DELETE FROM registered WHERE TID = %s"
+                    values8 = (temp1[1],)
+                    cursor.execute(query8,values8)
+                    connection.commit()
+
+                    for temp3 in tempdata3:
+                        query9 = "INSERT INTO rejected (TID, SID, HID) VALUES (%s, %s, %s)"
+                        values9 = (temp3[0],temp3[1],"SYST")
+                        cursor.execute(query9,values9)
+                        connection.commit()
+
+            query10 = "SELECT * FROM ongoing"
+            cursor.execute(query10)
+            tempdata4 = cursor.fetchall()
+            for temp4 in tempdata4:
+                if QDate.fromString(temp4[2],'M/d/yyyy') < QDate.currentDate():
+                    query11 = "DELETE FROM ongoing WHERE ID = %s"
+                    values11 = (temp4[1],)
+                    cursor.execute(query11,values11)
+                    connection.commit()
+
+                    query12 = "INSERT INTO completed (TITLE, ID, DATE, TIME, VENUE, COST, IMAGE, DEPARTMENT, DESCRIPTION) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                    values12 = (temp4[0],temp4[1],temp4[2],temp4[3],temp4[4],temp4[5],temp4[6],temp4[7],temp4[8])
+                    cursor.execute(query12,values12)
+                    connection.commit()                
+        
+        except mysql.connector.Error as error:
+            print("Failed to connect: {}".format(error))
+
+        finally:
+            if connection.is_connected():
+                cursor.close()
+                connection.close()                
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     loginwindow = LoginPage()
