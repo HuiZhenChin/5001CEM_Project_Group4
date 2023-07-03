@@ -4,62 +4,59 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
-#main window
+
+# main window
 class Main_window(QMainWindow):
     def __init__(self, role):
         QMainWindow.__init__(self)
         self.credential = ['ID', '101WIZARD', '011-10533650', 'jqgammers@gmail.com', role,
-                          '']
-        self.tempdata = [['Admin', 'T104', '23Dec2025', '03.04', 'Hall A', '3000',
+                           '']
+        self.tempdata = [['ARTIFICIAL INTELLIGENCE', 'T104', '23Dec2025', '03.04', 'Hall A', '3000',
                           '', '30', None,
                           'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .'],
-                         ['Bill', 'T105', '23Dec2024', '04.05', 'Hall B', '30000',
+                         ['CYBERSECURITY', 'T105', '23Dec2024', '04.05', 'Hall B', '30000',
                           '', '30', None,
                           'Cybersecurity is the practice of protecting critical systems and sensitive information from digital attacks. In this training, participants will learn about different types of cyber attacks, acquire knowledge and skills to protect digital systems, networks, and data from unauthorized access and involve in hands-on practical activities.'],
                          ['MARKETING', 'T103', '6/24/2023', '10.00 AM', 'Alpha Enterprise Conference Hall', '2000',
                           '', '45', None,
                           'Marketing is the activity of promoting, market researching and advertising of products or services. In this training, participants will learn about market research, consumer behaviour, branding, advertising and digital marketing strategies, involve in interactive sessions to study the real-world case studies,  gain insight into promoting and building the digital platforms and apply data analytics skills to implement the marketing plans.'],
-                         ['Hill', 'T110', '23Dec2025', '03.04', 'Hall A', '3000',
+                         ['Leadership', 'T110', '23Dec2025', '03.04', 'Hall A', '3000',
                           '', '30', None,
-                          'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .'],
-                         ['Gill', 'T109', '23Dec2025', '03.04', 'Hall A', '3000',
+                          'Leadership is the behaviour of directing and leading a group of people to achieve a goal. In this training, participants will involve in various activities such as team building, learn about various communication techniques and decision-making strategies and acquire knowledge of using practical tools to enhance the leadership capabilities.'],
+                         ['Networking', 'T109', '23Dec2025', '03.04', 'Hall A', '3000',
                           '', '30', None,
-                          'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .'],
-                         ['Mill', 'T145', '23Dec2025', '03.04', 'Hall A', '3000',
-                          '', '30', None,
-                          'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .'],
-                         ['Fuck You', 'T123', '23Dec2025', '03.04', 'Hall A', '3000',
-                          '', '30', None,
-                          'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
+                          'Networking is a practice of transporting data between nodes over a shared medium in an information system. In this training, participants will learn about network protocols, IP addressing, routing, network security, and troubleshooting techniques, gain practical knowledge by setting up and configuring network devices, monitoring network performance, and implementing security measures.']]
+
 
         if role == "hr":
             self.setWindowTitle("HR Assistant")
-            self.approveddata = [['T105', 'S104', 'HRID']]
-            self.rejecteddata = [['T103', 'S104', 'HRID']]
-            self.ongoing = [['Akau', 'T167', '23Dec2025', '03.04', 'Hall A', '3000',
+            self.approveddata = [['T105', 'S104', 'H102']]
+            self.rejecteddata = [['T103', 'S104', 'H102']]
+            self.ongoing = [['Agile Development', 'T167', '23Dec2025', '03.04', 'Hall A', '3000',
                              '', '30', None,
-                             'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
-            self.completed = [['Dill', 'T111', '23Dec2025', '03.04', 'Hall A', '3000',
+                             'Agile methodology allows the project to run in a dynamic and face-paced environment. In this training, participants will understand the principles of agile project management, learn how to break down a complex project into smaller tasks, create prioritized backlogs and learn how to use tools such as Kanban Board or Gantt Chart to keep track of the work progress. ']]
+            self.completed = [['Management', 'T111', '23Dec2025', '03.04', 'Hall A', '3000',
                                '', '30', None,
-                               'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
+                                'Management is the coordination and administration of tasks to achieve a goal. Such administration activities include setting the organization’s strategy and coordinating the efforts of staff to accomplish these objectives through the application of available resources. Management can also refer to the seniority structure of staff members within an organization.']]
         elif role == "admin":
             self.setWindowTitle("Admin")
-            self.addedtrainingdata = [['AID', 'T104', '01Dec2025']]
-            self.edittrainingdata = [['AID', 'T105', '20Dec2025']]
-            self.removetrainingdata = [['AID', '21Dec2025', 'Dill', 'T111', '23Dec2025', '03.04', 'Hall A', '3000',
-                                        '','30', None, 'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
+            self.addedtrainingdata = [['A102', 'T104', '01Dec2025']]
+            self.edittrainingdata = [['A102', 'T105', '20Dec2025']]
+            self.removetrainingdata = [['A102', '21Dec2025', 'Management', 'T111', '23Dec2025', '03.04', 'Hall A', '3000',
+                                        '', '30', None,
+                                        'Management is the coordination and administration of tasks to achieve a goal. Such administration activities include setting the organization’s strategy and coordinating the efforts of staff to accomplish these objectives through the application of available resources. Management can also refer to the seniority structure of staff members within an organization.']]
         else:
             self.setWindowTitle("Staff")
             self.registereddata = [['T104', 'ID']]
-            self.approveddata = [['T105', 'SID', 'HRID']]
-            self.rejecteddata = [['T103', 'ID', 'HRID']]
-            self.done = [['T167', 'ID', 'HRID'], ['T111', 'ID', 'HRID']]
-            self.ongoing = [['Akau', 'T167', '23Dec2025', '03.04', 'Hall A', '3000',
+            self.approveddata = [['T105', 'S103', 'H102']]
+            self.rejecteddata = [['T103', 'S104', 'H102']]
+            self.done = [['T167', 'S105', 'H102'], ['T111', 'S103', 'H102']]
+            self.ongoing = [['Agile Development', 'T167', '23Dec2025', '03.04', 'Hall A', '3000',
                              '', '30', None,
-                             'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
-            self.completed = [['Dill', 'T111', '23Dec2025', '03.04', 'Hall A', '3000',
+                             'Agile methodology allows the project to run in a dynamic and face-paced environment. In this training, participants will understand the principles of agile project management, learn how to break down a complex project into smaller tasks, create prioritized backlogs and learn how to use tools such as Kanban Board or Gantt Chart to keep track of the work progress. ']]
+            self.completed = [['Management', 'T111', '23Dec2025', '03.04', 'Hall A', '3000',
                                '', '30', None,
-                               'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
+                               'Management is the coordination and administration of tasks to achieve a goal. Such administration activities include setting the organization’s strategy and coordinating the efforts of staff to accomplish these objectives through the application of available resources. Management can also refer to the seniority structure of staff members within an organization.']]
         self.widget = QWidget(self)
         self.title = QLabel(role)
         self.title.setStyleSheet("QLabel{font-size: 18pt;}")
@@ -69,7 +66,7 @@ class Main_window(QMainWindow):
         # history menu
         self.Historymenu = QHBoxLayout()
         self.Historymenu.setAlignment(Qt.AlignmentFlag.AlignRight)
-        
+
         # create those buttons according to specific role
         # once create, connect the function and hide button first
         if role == 'admin':
@@ -80,7 +77,7 @@ class Main_window(QMainWindow):
                 "QPushButton:hover { background-color: #959595; color: black;}")
             self.addedbt.clicked.connect(self.adminAdded)
             self.addedbt.hide()
-            self.modifiedbt =QPushButton('Modified Training')
+            self.modifiedbt = QPushButton('Modified Training')
             self.modifiedbt.setFixedSize(150, 35)
             self.modifiedbt.setStyleSheet(
                 "QPushButton{background-color: #063887; color: white; border-style: outset; border-width: 2px;border-color:black;font:bold;}"
@@ -99,7 +96,6 @@ class Main_window(QMainWindow):
             self.Historymenu.addWidget(self.modifiedbt)
             self.Historymenu.addWidget(self.removebt)
         if role == 'hr':
-
             self.approvebt = QPushButton('Approved Participant')
             self.approvebt.setFixedSize(150, 35)
             self.approvebt.setStyleSheet(
@@ -119,40 +115,40 @@ class Main_window(QMainWindow):
         if role == 'staff':
             self.completedbt = QPushButton('Completed Training')
             self.completedbt.setFixedSize(150, 35)
-            self.completedbt.setStyleSheet("QPushButton{background-color: #2B5336; color: white; border-style: outset; border-width: 2px;border-color:black;font:bold;}"
-                                           "QPushButton:hover { background-color: #959595; color: black;}")
+            self.completedbt.setStyleSheet(
+                "QPushButton{background-color: #2B5336; color: white; border-style: outset; border-width: 2px;border-color:black;font:bold;}"
+                "QPushButton:hover { background-color: #959595; color: black;}")
             self.completedbt.clicked.connect(self.staffcomplete)
             self.completedbt.hide()
             self.rejectedbt = QPushButton('Rejected Request')
             self.rejectedbt.setFixedSize(150, 35)
-            self.rejectedbt.setStyleSheet("QPushButton{background-color: black; color: white; border-style: outset; border-width: 2px;border-color:black;font:bold;}"
-                                          "QPushButton:hover { background-color: #959595; color: black;}")
+            self.rejectedbt.setStyleSheet(
+                "QPushButton{background-color: black; color: white; border-style: outset; border-width: 2px;border-color:black;font:bold;}"
+                "QPushButton:hover { background-color: #959595; color: black;}")
             self.rejectedbt.clicked.connect(self.staffreject)
             self.rejectedbt.hide()
             self.Historymenu.addWidget(self.completedbt)
             self.Historymenu.addWidget(self.rejectedbt)
 
-        #scroll area
+        # scroll area
         self.dashboardwid = QWidget()
         self.dashboardwindow = QVBoxLayout(self.dashboardwid)
         self.loadDashboard()
 
         ##staff
-        self.trainingwid= QWidget()
-        self.trainingwindow= QVBoxLayout(self.trainingwid)
+        self.trainingwid = QWidget()
+        self.trainingwindow = QVBoxLayout(self.trainingwid)
         self.loadTraining()
 
-        
         # set the size of scroll area
         self.windowscroll = QScrollArea()
-        self.windowscroll.setMinimumSize(QSize(800,500))
+        self.windowscroll.setMinimumSize(QSize(800, 500))
         self.windowscroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.windowscroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.windowscroll.setWidget(self.dashboardwid)
         self.windowscroll.setWidgetResizable(True)
         self.windowscroll.setWidget(self.trainingwid)
         self.windowscroll.setWidgetResizable(True)
-
 
         # content
         self.content = QVBoxLayout()
@@ -175,17 +171,15 @@ class Main_window(QMainWindow):
         self.dashboardbt.clicked.connect(self.dashboard)
 
         if role == "staff":
-
             self.trainingbt = QPushButton(qta.icon("fa5.list-alt"), '')
             self.trainingbt.setIconSize(QSize(35, 35))
             self.trainingbt.setFixedSize(50, 50)
             self.trainingbt.clicked.connect(self.trainingListStatus)
 
-
         self.historybt = QPushButton(qta.icon("msc.history"), '')
         self.historybt.setIconSize(QSize(35, 35))
         self.historybt.setFixedSize(50, 50)
-        
+
         # page to show when click on particular button
         if role == 'staff':
             self.historybt.clicked.connect(self.staffcomplete)
@@ -217,7 +211,6 @@ class Main_window(QMainWindow):
         if role == "staff":
             self.sidemenucontent.addWidget(self.trainingbt)
 
-
         self.sidemenucontent.addWidget(self.historybt)
         self.sidemenucontent.addStretch()
 
@@ -247,7 +240,6 @@ class Main_window(QMainWindow):
     def loadTraining(self):
         training = QLabel("Training")
         self.trainingwindow.addWidget(training)
-
 
     def hrApprove(self):
         self.current.setText("History")
@@ -323,7 +315,6 @@ class Main_window(QMainWindow):
         # set scroll area widget
         self.windowscroll.setWidget(approveParticipantwid)
 
-
     def hrReject(self):
         self.current.setText("History")
         self.approvebt.show()
@@ -347,40 +338,40 @@ class Main_window(QMainWindow):
         HistoryHRName = QLabel("HR Name")
         HistoryHRName.setStyleSheet("color: black; font-weight: bold; font-size: 16px;")
 
-        rejectParticipantDetails= QGridLayout()
-        rejectParticipantDetails.addWidget(HistoryNoTitle, 0,0)
+        rejectParticipantDetails = QGridLayout()
+        rejectParticipantDetails.addWidget(HistoryNoTitle, 0, 0)
         rejectParticipantDetails.addWidget(HistoryTrainingIDTitle, 0, 1)
         rejectParticipantDetails.addWidget(HistoryTrainingTitle, 0, 2)
         rejectParticipantDetails.addWidget(HistoryDateList, 0, 3)
         rejectParticipantDetails.addWidget(HistoryParticipantName, 0, 4)
         rejectParticipantDetails.addWidget(HistoryHRName, 0, 5)
 
-        rejectParticipantData=[]
+        rejectParticipantData = []
 
         for temp in self.rejecteddata:
             for tempa in self.tempdata:
                 if temp[0] == tempa[1]:
-                    rejectParticipantData.append([tempa[0],tempa[1], tempa[2], temp[1], temp[2]])
+                    rejectParticipantData.append([tempa[0], tempa[1], tempa[2], temp[1], temp[2]])
 
         for temp in self.rejecteddata:
             for tempa in self.ongoing:
                 if temp[0] == tempa[1]:
-                    rejectParticipantData.append([tempa[0],tempa[1], tempa[2], temp[1], temp[2]])
+                    rejectParticipantData.append([tempa[0], tempa[1], tempa[2], temp[1], temp[2]])
 
         for temp in self.rejecteddata:
             for tempa in self.completed:
                 if temp[0] == tempa[1]:
-                    rejectParticipantData.append([tempa[0],tempa[1],tempa[2], temp[1], temp[2]])
+                    rejectParticipantData.append([tempa[0], tempa[1], tempa[2], temp[1], temp[2]])
 
         count = 1
 
-        for i in  rejectParticipantData:
+        for i in rejectParticipantData:
             number = QLabel(str(count))
             TID = QLabel(i[1])
             Ttitle = QLabel(i[0])
             Date = QLabel(i[2])
-            ParticipantName= QLabel(i[3])
-            HRID= QLabel(i[4])
+            ParticipantName = QLabel(i[3])
+            HRID = QLabel(i[4])
             rejectParticipantDetails.addWidget(number, count, 0)
             rejectParticipantDetails.addWidget(TID, count, 1)
             rejectParticipantDetails.addWidget(Ttitle, count, 2)
@@ -389,15 +380,14 @@ class Main_window(QMainWindow):
             rejectParticipantDetails.addWidget(HRID, count, 5)
             count += 1
 
-        rejectParticipantwid= QWidget()
-        rejectParticipantwindow= QVBoxLayout(rejectParticipantwid)
+        rejectParticipantwid = QWidget()
+        rejectParticipantwindow = QVBoxLayout(rejectParticipantwid)
         rejectParticipantwindow.addLayout(rejectParticipantDetails)
         rejectParticipantwindow.setAlignment(Qt.AlignmentFlag.AlignTop)
         rejectParticipantwindow.addStretch()
 
-        #set scroll area widget
+        # set scroll area widget
         self.windowscroll.setWidget(rejectParticipantwid)
-
 
     def adminAdded(self):
         self.current.setText("History")
@@ -441,7 +431,7 @@ class Main_window(QMainWindow):
             TID = QLabel(i[2])
             Title = QLabel(i[0])
             Date = QLabel(i[3])
-            Admin= QLabel(i[1])
+            Admin = QLabel(i[1])
             addDetails.addWidget(number, count, 0)
             addDetails.addWidget(TID, count, 1)
             addDetails.addWidget(Title, count, 2)
@@ -457,7 +447,6 @@ class Main_window(QMainWindow):
 
         # set scroll area widget
         self.windowscroll.setWidget(addwid)
-
 
     def adminModify(self):
         self.current.setText("History")
@@ -493,6 +482,7 @@ class Main_window(QMainWindow):
             for tempa in self.tempdata:
                 if temp[1] == tempa[1]:
                     editdata.append([tempa[0], temp[0], temp[1], temp[2]])
+
 
         count = 1
 
@@ -678,7 +668,6 @@ class Main_window(QMainWindow):
         # set scroll area widget
         self.windowscroll.setWidget(rejectwid)
 
-
     def dashboard(self):
         self.current.setText("DashBoard")
         if role == 'staff':
@@ -692,7 +681,6 @@ class Main_window(QMainWindow):
             self.approvebt.hide()
             self.rejectbt.hide()
 
-
         self.dashboardwid = QWidget()
         self.dashboardwindow = QVBoxLayout(self.dashboardwid)
         self.loadDashboard()
@@ -703,25 +691,24 @@ class Main_window(QMainWindow):
         self.current.setText("Training List Status")
         self.completedbt.hide()
         self.rejectedbt.hide()
-        self.trainingwid= QWidget()
-        self.trainingwindow= QVBoxLayout(self.trainingwid)
+        self.trainingwid = QWidget()
+        self.trainingwindow = QVBoxLayout(self.trainingwid)
         self.loadTraining()
         self.windowscroll.setWidget(self.trainingwid)
         print("Training List Status")
 
-
     def training(self):
         self.current.setText("Training")
-        print("Bill")
+        print("test")
 
     def account(self):
         self.current.setText("Account")
-        print("Bill")
+        print("test")
 
     def logout(self):
         self.hideall()
         self.current.setText("Logout")
-        print("Bill")
+        print("test")
 
     def expand(self):
         self.expandButton.clicked.disconnect()
