@@ -2440,6 +2440,7 @@ class Main_window(QMainWindow):
         if self.role == "staff":
             self.trainingbt.setFixedSize(50, 50)
             self.trainingbt.setStyleSheet("QPushButton { text-align: center;border-style: outset;color: #ffffff;} QPushButton::hover{background-color : #11469c;}")
+            self.trainingbt.setText("")
         if self.role == "hr":
             self.adddepartmentbt.setFixedSize(50, 50)
             self.adddepartmentbt.setStyleSheet("QPushButton { text-align: center;border-style: outset;color: #ffffff;} QPushButton::hover{background-color : #11469c;}")
