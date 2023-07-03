@@ -4,6 +4,9 @@ import qtawesome as qta
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
+import bcrypt
+import base64
+import mysql.connector
 
 class LoginPage(QWidget):
     def __init__(self):
@@ -38,29 +41,95 @@ class LoginPage(QWidget):
         # Set the layout for the window
         self.setLayout(self.layout)
 
-    def login(self):#work on it
+    def login(self):#work on it(UI)
         username = self.username_input.text()
         password = self.password_input.text()
 
-        # Perform login validation
-        if username == "admin" and password == "password":
-            role = "admin"
-            credential = ['ID','101WIZARD','011-10533650','jqgammers@gmail.com',username,'','ps']
-            self.close()
-            self.openwindow(role,credential)
-        elif username == "hr" and password == "password":
-            role= "hr"
-            credential = ['ID','101WIZARD','011-10533650','jqgammers@gmail.com',username,'','ps']
-            self.close()
-            self.openwindow(role,credential)
-        elif username == "staff" and password == "password":
-            role= "staff"
-            credential = ['ID','101WIZARD','011-10533650','jqgammers@gmail.com',username,'','ps']
-            self.close()
-            self.openwindow(role,credential)
+        if username[0].upper() == 'A':
+            role = 'admin'
+            self.loginvalidation(role,username,password)
+        elif username[0].upper() == 'H':
+            role = 'hr'
+            self.loginvalidation(role,username,password)
+        elif username[0].upper() == 'S':
+            role = 'staff'
+            self.loginvalidation(role,username,password)
         else:
-            QMessageBox.warning(self, "Login", "Invalid username or password.")
+            QMessageBox.warning(self, "Login", "Invalid ID.")
 
+    def loginvalidation(self,role,username,password):
+        try:
+            connection = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                password="",
+                database="test"
+            )
+            cursor = connection.cursor()
+            if role == 'admin':
+                cursor.execute("SELECT ID FROM admin")
+            elif role == 'hr':
+                cursor.execute("SELECT ID FROM hrassistant")
+            elif role == 'staff':
+                cursor.execute("SELECT ID FROM staff")
+            else:
+                QMessageBox.warning(self, "Login", "Invalid ID.")
+            ids = cursor.fetchall()
+
+        except mysql.connector.Error as error:
+            print("Failed to connect: {}".format(error))
+
+        finally:
+            if connection.is_connected():
+                cursor.close()
+                connection.close()
+
+        valid = False
+        for id in ids:
+            print(id[0],username.upper())
+            if id[0] == username.upper():
+                try:
+                    connection = mysql.connector.connect(
+                        host="localhost",
+                        user="root",
+                        password="",
+                        database="test"
+                    )
+                    cursor = connection.cursor()
+                    print("bill")
+                    if role == 'admin':
+                        cursor.execute("SELECT * FROM admin WHERE ID = %s",(id[0],))
+                    elif role == 'hr':
+                        cursor.execute("SELECT * FROM hrassistant WHERE ID = %s",(id[0],))
+                    elif role == 'staff':
+                        cursor.execute("SELECT * FROM staff WHERE ID = %s",(id[0],))
+                    else:
+                        QMessageBox.warning(self, "Login", "Invalid ID.")
+                    credential = cursor.fetchall()
+
+                except mysql.connector.Error as error:
+                    print("Failed to connect: {}".format(error))
+
+                finally:
+                    if connection.is_connected():
+                        cursor.close()
+                        connection.close()
+
+                print(credential[0][7])
+                print(credential[0][6])
+                hashpass = bcrypt.hashpw(password.encode('utf-8'),credential[0][7].encode('utf-8'))
+                print(hashpass)
+                if credential[0][6].encode('utf-8') == hashpass:
+                    self.close()
+                    self.openwindow(role,credential[0])
+                    valid = True
+                    break
+            else:
+                valid = False
+        
+        if valid == False:
+            QMessageBox.warning(self, "Login", "Invalid username or password.")
+            
     def openwindow(self,role,credential):
         self.mainwindow = Main_window(role,credential)
         self.mainwindow.show()
@@ -71,19 +140,19 @@ class Main_window(QMainWindow):
         # update database data and load data
         self.role = role
         self.credential = credential
-        self.tempdata = [['Admin', 'T104', '23Dec2025', '03.04', 'Hall A', '3000', '', None,
+        self.tempdata = [['Admin', 'T104', '6/30/2025', '5:50 PM', 'Hall A', '3000', '', None,
                           'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .'],
-                         ['Bill', 'T105', '23Dec2024', '04.05', 'Hall B', '30000', '', None,
+                         ['Bill', 'T105', '6/30/2025', '5:50 PM', 'Hall B', '30000', '', None,
                           'Cybersecurity is the practice of protecting critical systems and sensitive information from digital attacks. In this training, participants will learn about different types of cyber attacks, acquire knowledge and skills to protect digital systems, networks, and data from unauthorized access and involve in hands-on practical activities.'],
-                         ['MARKETING', 'T103', '6/24/2023', '10.00 AM', 'Alpha Enterprise Conference Hall', '2000', '', None,
+                         ['MARKETING', 'T103', '6/30/2025', '10:00 AM', 'Alpha Enterprise Conference Hall', '2000', '', None,
                           'Marketing is the activity of promoting, market researching and advertising of products or services. In this training, participants will learn about market research, consumer behaviour, branding, advertising and digital marketing strategies, involve in interactive sessions to study the real-world case studies,  gain insight into promoting and building the digital platforms and apply data analytics skills to implement the marketing plans.'],
-                         ['Hill', 'T110', '23Dec2025', '03.04', 'Hall A', '3000', '', None,
+                         ['Hill', 'T110', '6/30/2025', '5:50 PM', 'Hall A', '3000', '', None,
                           'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .'],
-                         ['Gill', 'T109', '23Dec2025', '03.04', 'Hall A', '3000', '', None,
+                         ['Gill', 'T109', '6/30/2025', '5:50 PM', 'Hall A', '3000', '', None,
                           'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .'],
-                         ['Mill', 'T145', '23Dec2025', '03.04', 'Hall A', '3000', '', None,
+                         ['Mill', 'T145', '6/30/2025', '5:50 PM', 'Hall A', '3000', '', None,
                           'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .'],
-                         ['Fuck You', 'T123', '23Dec2025', '03.04', 'Hall A', '3000', '', None,
+                         ['Fuck You', 'T123', '6/30/2025', '5:50 PM', 'Hall A', '3000', '', None,
                           'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
         if self.role == "hr":
             self.setWindowTitle("HR Assistant")
@@ -94,9 +163,9 @@ class Main_window(QMainWindow):
                               ['S102', 'NAME2', '012-136880234','jqgammers@gmail.com', 'DP STAFF','pic','ps'],
                               ['S103', 'NAME3', '012-134500091','jqgammers@gmail.com', 'AP STAFF','pic','ps'],
                               ['S104', 'NAME4', '016-134500235','jqgammers@gmail.com', 'IT STAFF','pic','ps']]
-            self.ongoing = [['Akau', 'T167', '23Dec2025', '03.04', 'Hall A', '3000', '', None,
+            self.ongoing = [['Akau', 'T167', '6/30/2025', '5:50 PM', 'Hall A', '3000', '', None,
                              'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
-            self.completed = [['Dill', 'T111', '23Dec2025', '03.04', 'Hall A', '3000', '', None,
+            self.completed = [['Dill', 'T111', '6/30/2025', '5:50 PM', 'Hall A', '3000', '', None,
                                'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
 
         elif self.role == "admin":
@@ -104,13 +173,13 @@ class Main_window(QMainWindow):
             self.registereddata = [['T104', 'SID']]
             self.approveddata = [['T105', 'SID', 'HRID']]
             self.rejecteddata = [['T103', 'SID', 'HRID'], ['T167', 'SID', 'HRID']]
-            self.addedtrainingdata = [['AID', 'T104', '01Dec2025']]
-            self.edittrainingdata = [['AID', 'T110', '20Dec2025']]
-            self.removetrainingdata = [['AID', '21Dec2025', 'Dill', 'T111', '23Dec2025', '03.04', 'Hall A', '3000', '', None,
+            self.addedtrainingdata = [['AID', 'T104', '6/30/2025']]
+            self.edittrainingdata = [['AID', 'T110', '6/30/2025']]
+            self.removetrainingdata = [['AID', '6/30/2023 9:45 PM', 'Dill', 'T111', '6/30/2025', '5:50 PM', 'Hall A', '3000', '', None,
                             'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
-            self.ongoing = [['Akau', 'T167', '23Dec2025', '03.04', 'Hall A', '3000', '', None,
+            self.ongoing = [['Akau', 'T167', '6/30/2025', '5:50 PM', 'Hall A', '3000', '', None,
                              'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
-            self.completed = [['Dill', 'T111', '23Dec2025', '03.04', 'Hall A', '3000', '', None,
+            self.completed = [['Dill', 'T111', '6/30/2025', '5:50 PM', 'Hall A', '3000', '', None,
                                'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
 
         else:
@@ -119,9 +188,9 @@ class Main_window(QMainWindow):
             self.approveddata = [['T105', 'SID', 'HRID']]
             self.rejecteddata = [['T103', 'SID', 'HRID'], ['T167', 'SID', 'HRID']]
             self.done = [['T111', 'SID', 'HRID']]
-            self.ongoing = [['Akau', 'T167', '23Dec2025', '03.04', 'Hall A', '3000', '', None,
+            self.ongoing = [['Akau', 'T167', '6/30/2025', '5:50 PM', 'Hall A', '3000', '', None,
                              'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
-            self.completed = [['Dill', 'T111', '23Dec2025', '03.04', 'Hall A', '3000', '', None,
+            self.completed = [['Dill', 'T111', '6/30/2025', '5:50 PM', 'Hall A', '3000', '', None,
                                'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
 
         self.widget = QWidget(self)
@@ -268,16 +337,22 @@ class Main_window(QMainWindow):
 
         # profile button
         if self.credential[5] != '':
-            t_img = QPixmap(self.credential[5])
+            profilepicd = QByteArray.fromBase64(self.credential[5])
+            t_img = QPixmap(QImage.fromData(profilepicd))
             if t_img.width() > t_img.height():
                 trans = t_img.copy((t_img.width() / 4), 0, t_img.width(), t_img.width())
             if t_img.height() > t_img.width():
                 trans = t_img.copy(0, (t_img.height() / 4), t_img.width(), t_img.width())
             if t_img.height == t_img.width():
                 trans = t_img
-            t_image = QIcon(trans)
 
-        if self.credential[5] != '':
+            try:
+                t_image = QIcon(trans)
+            except:
+                t_image = None
+                print("Error in loading image")
+
+        if t_image != None:
             self.accountButton = QPushButton(t_image, '')
             self.accountButton.setIconSize(QSize(35, 35))
         else:
@@ -352,10 +427,10 @@ class Main_window(QMainWindow):
         self.newtrainingIDinput = QLineEdit()
 
         self.newtrainingDate = QLabel('Date :')
-        self.newtrainingDateinput = QLineEdit()
+        self.newtrainingDateinput = QDateEdit(QDate.currentDate())
 
         self.newtrainingTime = QLabel('Time :')
-        self.newtrainingTimeinput = QLineEdit()
+        self.newtrainingTimeinput = QTimeEdit(QTime.currentTime())
 
         self.newtrainingVenue = QLabel('Venue :')
         self.newtrainingVenueinput = QLineEdit()
@@ -424,7 +499,7 @@ class Main_window(QMainWindow):
         t_dep = None
         t_description = self.newtrainingdescriptioninput.text()
         self.tempdata.append([t_title, t_ID, t_Date, t_Time, t_Venue, t_Cost, t_img, t_dep, t_description])
-        self.addedtrainingdata.append([self.credential[0], t_ID, 'Date'])
+        self.addedtrainingdata.append([self.credential[0], t_ID, QDateTime.currentDateTime()])
         self.dashboard()
 
     def edittraining(self, id):
@@ -456,12 +531,12 @@ class Main_window(QMainWindow):
         self.newtrainingIDinput.setDisabled(True)
 
         self.newtrainingDate = QLabel('Date :')
-        self.newtrainingDateinput = QLineEdit()
-        self.newtrainingDateinput.setText(self.data[2])
+        self.newtrainingDateinput = QDateEdit()
+        self.newtrainingDateinput.setDate(QDate.fromString(self.data[2],'M/d/yyyy'))
 
         self.newtrainingTime = QLabel('Time :')
-        self.newtrainingTimeinput = QLineEdit()
-        self.newtrainingTimeinput.setText(self.data[3])
+        self.newtrainingTimeinput = QTimeEdit()
+        self.newtrainingTimeinput.setTime(QTime.fromString(self.data[3],'h:mm AP'))
 
         self.newtrainingVenue = QLabel('Venue :')
         self.newtrainingVenueinput = QLineEdit()
@@ -538,7 +613,7 @@ class Main_window(QMainWindow):
             if self.data == temp:
                 self.tempdata.remove(temp)
         self.tempdata.append([t_title, t_ID, t_Date, t_Time, t_Venue, t_Cost, t_img, t_dep, t_description])
-        self.edittrainingdata.append([self.credential[0], t_ID, 'Date'])
+        self.edittrainingdata.append([self.credential[0], t_ID, QDateTime.currentDateTime()])
         print(self.edittrainingdata)
         self.dashboard()
 
@@ -563,7 +638,7 @@ class Main_window(QMainWindow):
         for temp in self.tempdata:
             if self.data == temp:
                 self.tempdata.remove(temp)
-                self.removetrainingdata.append([self.credential[0], 'Date', temp[0], temp[1], temp[2], temp[3], temp[4], temp[5], temp[6], temp[7], temp[8]])
+                self.removetrainingdata.append([self.credential[0], QDateTime.currentDateTime(), temp[0], temp[1], temp[2], temp[3], temp[4], temp[5], temp[6], temp[7], temp[8]])
 
         for temp in self.registereddata:
             if self.data[1] == temp[0]:
@@ -1081,7 +1156,7 @@ class Main_window(QMainWindow):
 
     #add department
     #hr only
-    def addselecteddepartment(self):#return to what page
+    def addselecteddepartment(self):
         checkedarray = []
         for i, v in enumerate(self.departmentlist):
             if v.isChecked():
@@ -1090,10 +1165,13 @@ class Main_window(QMainWindow):
         departmentstring = ''
 
         for i in checkedarray:
-            departmentstring = departmentstring+','+self.depdata[i]
+            if departmentstring == '':
+                departmentstring = self.depdata[i]
+            else:
+                departmentstring = departmentstring+','+self.depdata[i]
 
         if self.data[7] != None:
-            departmentstring = departmentstring + self.data[7]
+            departmentstring = departmentstring + ',' + self.data[7]
 
         staff = []
         for i in self.stafflist:
@@ -1101,15 +1179,23 @@ class Main_window(QMainWindow):
                 if i[4] == self.depdata[x]:
                     staff.append(i[0])
 
-        for i in self.registereddata:
-            if i[0] == self.data[1]:
-                if i[1] in staff:
-                    self.registereddata.remove(i)
+        for x in staff:
+            for i in self.registereddata:    
+                if i[0] == self.data[1]:
+                    if i[1] == x:
+                        self.registereddata.remove(i)
 
-        for i in self.rejecteddata:
-            if i[0] == self.data[1]:
-                if i[1] in staff:
-                    self.rejecteddata.remove(i)
+        for x in staff:
+            for i in self.rejecteddata:
+                if i[0] == self.data[1]:
+                    if i[1] == x:
+                        self.rejecteddata.remove(i)
+
+        for x in staff:
+            for i in self.approveddata:
+                if i[0] == self.data[1]:
+                    if i[1] == x:
+                        self.approveddata.remove(i)
 
         for i in staff:
             self.approveddata.append([self.data[1],i,self.credential[0]])
@@ -1236,8 +1322,19 @@ class Main_window(QMainWindow):
         count = 0
 
         self.adddepartmentbtgroup = QButtonGroup()
+
+        departmentlist = []
+        for i in self.stafflist:
+            if i[4] not in departmentlist:
+                departmentlist.append(i[4])
+
         for temp in self.tempdata:
-            self.adddepartmentdata.append(temp)
+            if temp[7] == None:
+                self.adddepartmentdata.append(temp)
+            else:
+                dep = temp[7].split(',')
+                if len(dep) != len(departmentlist):
+                    self.adddepartmentdata.append(temp)
 
         self.filterinput = QLineEdit()
         filterbt = QPushButton(qta.icon('mdi.filter-outline'), 'Filter')
@@ -1705,16 +1802,22 @@ class Main_window(QMainWindow):
     # admin,staff,hr
     def loadaccount(self):
         if self.credential[5] != '':
-            t_img = QPixmap(self.credential[5])
+            profilepicd = QByteArray.fromBase64(self.credential[5])
+            t_img = QPixmap(QImage.fromData(profilepicd))
             if t_img.width() > t_img.height():
                 trans = t_img.copy((t_img.width() / 4), 0, t_img.width(), t_img.width())
             if t_img.height() > t_img.width():
                 trans = t_img.copy(0, (t_img.height() / 4), t_img.width(), t_img.width())
             if t_img.height == t_img.width():
                 trans = t_img
-            t_image = QIcon(trans)
 
-        if self.credential[5] != '':
+            try:
+                t_image = QIcon(trans)
+            except:
+                t_image = None
+                print("Error in loading image")
+
+        if t_image != None:
             profilepic = QPushButton(t_image, '')
             profilepic.setIconSize(QSize(290, 290))
         else:
