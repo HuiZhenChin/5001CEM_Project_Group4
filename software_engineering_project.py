@@ -140,35 +140,9 @@ class Main_window(QMainWindow):
         # update database data and load data
         self.role = role
         self.credential = credential
-        self.tempdata = [['Admin', 'T104', '6/30/2025', '5:50 PM', 'Hall A', '3000', '', None,
-                          'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .'],
-                         ['Bill', 'T105', '6/30/2025', '5:50 PM', 'Hall B', '30000', '', None,
-                          'Cybersecurity is the practice of protecting critical systems and sensitive information from digital attacks. In this training, participants will learn about different types of cyber attacks, acquire knowledge and skills to protect digital systems, networks, and data from unauthorized access and involve in hands-on practical activities.'],
-                         ['MARKETING', 'T103', '6/30/2025', '10:00 AM', 'Alpha Enterprise Conference Hall', '2000', '', None,
-                          'Marketing is the activity of promoting, market researching and advertising of products or services. In this training, participants will learn about market research, consumer behaviour, branding, advertising and digital marketing strategies, involve in interactive sessions to study the real-world case studies,  gain insight into promoting and building the digital platforms and apply data analytics skills to implement the marketing plans.'],
-                         ['Hill', 'T110', '6/30/2025', '5:50 PM', 'Hall A', '3000', '', None,
-                          'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .'],
-                         ['Gill', 'T109', '6/30/2025', '5:50 PM', 'Hall A', '3000', '', None,
-                          'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .'],
-                         ['Mill', 'T145', '6/30/2025', '5:50 PM', 'Hall A', '3000', '', None,
-                          'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .'],
-                         ['Fuck You', 'T123', '6/30/2025', '5:50 PM', 'Hall A', '3000', '', None,
-                          'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
-        if self.role == "hr":
-            self.setWindowTitle("HR Assistant")
-            self.registereddata = [['T104', 'S101'], ['T104', 'S102'], ['T105', 'S101']]
-            self.approveddata = [['T105', 'S104', 'HRID']]
-            self.rejecteddata = [['T103', 'S104', 'HRID']]
-            self.stafflist = [['S101', 'NAME1', '011-134500234','jqgammers@gmail.com', 'IT STAFF','pic','ps'],
-                              ['S102', 'NAME2', '012-136880234','jqgammers@gmail.com', 'DP STAFF','pic','ps'],
-                              ['S103', 'NAME3', '012-134500091','jqgammers@gmail.com', 'AP STAFF','pic','ps'],
-                              ['S104', 'NAME4', '016-134500235','jqgammers@gmail.com', 'IT STAFF','pic','ps']]
-            self.ongoing = [['Akau', 'T167', '6/30/2025', '5:50 PM', 'Hall A', '3000', '', None,
-                             'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
-            self.completed = [['Dill', 'T111', '6/30/2025', '5:50 PM', 'Hall A', '3000', '', None,
-                               'AI is the development of computer systems that is able to perform tasks that require human intelligence. AI can learn and perform complex problem-solving. In this training, participants will understand what is an AI model, determine the impact of AI, develop and design a simple AI model .']]
-
-        elif self.role == "admin":
+        self.loaddata()
+        
+        if self.role == "admin":
             self.setWindowTitle("Admin")
             self.registereddata = [['T104', 'SID']]
             self.approveddata = [['T105', 'SID', 'HRID']]
@@ -2019,6 +1993,79 @@ class Main_window(QMainWindow):
         self.title.setHidden(True)
         self.expandButton.clicked.connect(self.expand)
 
+    #load data
+    def loaddata(self):
+        try:
+            connection = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                password="",
+                database="test"
+            )
+            cursor = connection.cursor()
+
+            query1 = "SELECT * FROM training"
+            cursor.execute(query1)
+            self.tempdata = cursor.fetchall()
+
+            query2 = "SELECT * FROM ongoing"
+            cursor.execute(query2)
+            self.ongoing = cursor.fetchall()
+
+            query3 = "SELECT * FROM completed"
+            cursor.execute(query3)
+            self.completed = cursor.fetchall()
+
+            query4 = "SELECT * FROM registered"
+            cursor.execute(query4)
+            self.registereddata = cursor.fetchall()
+
+            query5 = "SELECT * FROM approved"
+            cursor.execute(query5)
+            self.approveddata = cursor.fetchall()
+
+            query6 = "SELECT * FROM rejected"
+            cursor.execute(query6)
+            self.rejecteddata = cursor.fetchall()
+
+            if self.role == 'admin':
+                self.setWindowTitle("Admin")
+                query7 = "SELECT * FROM addedtraining"
+                cursor.execute(query7)
+                self.addedtrainingdata = cursor.fetchall()
+
+                query8 = "SELECT * FROM edittraining"
+                cursor.execute(query8)
+                self.edittrainingdata = cursor.fetchall()
+
+                query9 = "SELECT * FROM removetraining"
+                cursor.execute(query9)
+                self.removetrainingdata = cursor.fetchall()
+
+            elif self.role == 'hr':
+                self.setWindowTitle("HR Assistant")
+                query7 = "SELECT * FROM staff"
+                cursor.execute(query7)
+                self.stafflist = cursor.fetchall()
+
+                query8 = "SELECT * FROM done"
+                cursor.execute(query8)
+                self.done = cursor.fetchall()
+
+            elif self.role == 'staff':
+                self.setWindowTitle("Staff")
+                query7 = "SELECT * FROM done"
+                cursor.execute(query7)
+                self.done = cursor.fetchall()
+
+        except mysql.connector.Error as error:
+            print("Failed to connect: {}".format(error))
+
+        finally:
+            if connection.is_connected():
+                cursor.close()
+                connection.close()
+                
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     loginwindow = LoginPage()
