@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 from PySide6.QtWidgets import QApplication
-from lastver import LoginPage
+from software_engineering_project import LoginPage
 
 class TestLoginPage(unittest.TestCase):
     @classmethod
