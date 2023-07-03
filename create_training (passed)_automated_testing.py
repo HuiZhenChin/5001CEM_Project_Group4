@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import patch
 from PySide6.QtWidgets import QApplication, QPushButton, QMessageBox, QLineEdit, QDateEdit, QTimeEdit
 from PySide6.QtCore import QDate, QTime
-from software engineering project import LoginPage, Main_window
+from software_engineering_project import LoginPage, Main_window
 import base64
 
 class TestMainWindow(unittest.TestCase):
